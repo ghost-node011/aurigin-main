@@ -73,7 +73,7 @@ export default function WhyUs() {
               >
                 <Icon size={26} style={{ color: "var(--color-orange)" }} />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <h3 className="font-display font-extrabold uppercase text-lg sm:text-xl">{title}</h3>
                 <p className="text-[var(--fg-muted)] text-sm sm:text-base mt-1">{desc}</p>
               </div>
