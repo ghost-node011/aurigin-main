@@ -1,54 +1,74 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Binoculars, Compass, Lightbulb, PenLine, Megaphone, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Binoculars, Compass, Lightbulb, PenLine, Megaphone } from "lucide-react";
 import SplitReveal from "./SplitReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const STEPS = [
-  { n: "01", icon: Binoculars, title: "Discover", desc: "We dig deep: audience, market, culture, insight." },
-  { n: "02", icon: Compass, title: "Direction", desc: "We find the truth and set a clear direction." },
-  { n: "03", icon: Lightbulb, title: "Ideate", desc: "Big ideas. Bold angles. No safe bets." },
-  { n: "04", icon: PenLine, title: "Create", desc: "Crafting stories, systems and experiences." },
-  { n: "05", icon: Megaphone, title: "Launch", desc: "We launch, learn, and scale what works." },
+  { n: "01", icon: Binoculars, title: "Discover", desc: "We dig deep: audience, market, culture, insight.", bg: "#1a34e0", fg: "#ffffff" },
+  { n: "02", icon: Compass, title: "Direction", desc: "We find the truth and set a clear direction.", bg: "#0b0b0c", fg: "#f3ecda" },
+  { n: "03", icon: Lightbulb, title: "Ideate", desc: "Big ideas. Bold angles. No safe bets.", bg: "#ffb08a", fg: "#0b0b0c" },
+  { n: "04", icon: PenLine, title: "Create", desc: "Crafting stories, systems and experiences.", bg: "#101f8c", fg: "#ffffff" },
+  { n: "05", icon: Megaphone, title: "Launch", desc: "We launch, learn, and scale what works.", bg: "#ff4d1c", fg: "#ffffff" },
 ];
 
 export default function Process() {
   const wrapRef = useRef(null);
-  const trackRef = useRef(null);
+  const cardsRef = useRef([]);
+  cardsRef.current = [];
   const barRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const track = trackRef.current;
+      const cards = cardsRef.current;
+      const total = cards.length;
 
-      const setDistance = () => Math.max(track.scrollWidth - window.innerWidth + 96, 0);
+      cards.forEach((card, i) => {
+        gsap.set(card, {
+          scale: 1 - i * 0.045,
+          y: i * 16,
+          zIndex: total - i,
+        });
+      });
 
-      const tween = gsap.to(track, {
-        x: () => -setDistance(),
-        ease: "none",
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrapRef.current,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.7,
+          scrub: true,
           onUpdate: (self) => {
             if (barRef.current) barRef.current.style.width = `${self.progress * 100}%`;
           },
         },
       });
 
-      return () => tween.scrollTrigger?.kill();
+      cards.forEach((card, i) => {
+        if (i === total - 1) return;
+        const start = i / (total - 1);
+        const dir = i % 2 === 0 ? -1 : 1;
+        tl.to(
+          card,
+          { x: `${dir * 130}%`, rotate: dir * 16, opacity: 0, duration: 0.7 / (total - 1), ease: "power1.in" },
+          start
+        );
+        tl.to(
+          cards[i + 1],
+          { scale: 1, y: 0, duration: 0.7 / (total - 1), ease: "power1.out" },
+          start
+        );
+      });
     }, wrapRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="process" ref={wrapRef} className="relative h-[420vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center border-t" style={{ borderColor: "var(--line)" }}>
-        <div className="px-6 max-w-7xl mx-auto w-full mb-10">
+    <section id="process" ref={wrapRef} className="relative h-[480vh]">
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center pt-20 sm:pt-0 border-t" style={{ borderColor: "var(--line)" }}>
+        <div className="px-6 max-w-7xl mx-auto w-full mb-8 text-center">
           <span className="font-mono text-xs tracking-[0.3em] uppercase text-[var(--fg-muted)]">Approach</span>
           <SplitReveal
             text="The plot before the post."
@@ -56,55 +76,39 @@ export default function Process() {
           />
         </div>
 
-        <div ref={trackRef} className="flex gap-6 px-6 will-change-transform" style={{ width: "max-content" }}>
-          {STEPS.map((s) => {
-            const StepIcon = s.icon;
-            return (
-              <div
-                key={s.n}
-                className="w-[78vw] sm:w-[46vw] lg:w-[26vw] flex-shrink-0 rounded-3xl border p-8 sm:p-10 flex flex-col justify-between min-h-[46vh]"
-                style={{ borderColor: "var(--line)", background: "var(--card)" }}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm text-[var(--fg-muted)]">{s.n} /05</span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--fg-muted)]">
-                    {s.title}
-                  </span>
-                </div>
+        <div className="relative flex-1 flex items-center justify-center px-6 min-h-0">
+          <ArrowLeft className="hidden sm:block absolute left-[8%] text-[var(--fg-muted)]" size={28} strokeWidth={1.5} />
+          <ArrowRight className="hidden sm:block absolute right-[8%] text-[var(--fg-muted)]" size={28} strokeWidth={1.5} />
 
-                <div className="flex-1 flex items-center justify-center py-6">
+          <div className="relative w-[84vw] sm:w-[420px] aspect-square max-h-[52vh]">
+            {STEPS.map((s, i) => {
+              const StepIcon = s.icon;
+              return (
+                <div
+                  key={s.n}
+                  ref={(el) => (cardsRef.current[i] = el)}
+                  className="absolute inset-0 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center justify-center gap-5 text-center shadow-2xl will-change-transform"
+                  style={{ background: s.bg, color: s.fg }}
+                >
                   <div
-                    className="w-[36%] aspect-square rounded-full flex items-center justify-center"
-                    style={{ background: "color-mix(in srgb, var(--color-orange) 12%, transparent)" }}
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center"
+                    style={{ background: "color-mix(in srgb, currentColor 15%, transparent)" }}
                   >
-                    <StepIcon className="w-[44%] h-[44%]" strokeWidth={1.4} style={{ color: "var(--color-orange)" }} />
+                    <StepIcon size={32} strokeWidth={1.4} />
                   </div>
+                  <h3 className="font-display font-black uppercase text-3xl sm:text-4xl">{s.title}</h3>
+                  <p className="opacity-75 text-sm sm:text-base max-w-[26ch]">{s.desc}</p>
+                  <span className="font-mono text-sm opacity-60 mt-2">{s.n} /05</span>
                 </div>
-
-                <div>
-                  <h3 className="font-display font-black uppercase text-3xl sm:text-4xl mb-4">{s.title}</h3>
-                  <p className="text-[var(--fg-muted)] text-base sm:text-lg">{s.desc}</p>
-                </div>
-              </div>
-            );
-          })}
-
-          <div
-            className="relative w-[78vw] sm:w-[46vw] lg:w-[26vw] flex-shrink-0 rounded-3xl flex flex-col justify-end items-start p-8 sm:p-10 min-h-[46vh] overflow-hidden"
-            style={{ background: "var(--color-orange)" }}
-          >
-            <Sparkles
-              className="absolute -top-[6%] -right-[10%] w-[60%] h-[60%] text-white/15"
-              strokeWidth={1}
-            />
-            <p className="relative font-display font-black uppercase text-3xl sm:text-4xl text-white leading-tight">
-              Impact <br /> that lasts.
-            </p>
-            <p className="relative text-white/80 mt-4">Different skills. One mission: cultural impact.</p>
+              );
+            })}
           </div>
         </div>
 
-        <div className="px-6 max-w-7xl mx-auto w-full mt-10">
+        <div className="px-6 max-w-7xl mx-auto w-full mt-8">
+          <p className="text-center font-mono text-[10px] uppercase tracking-[0.3em] text-[var(--fg-muted)] mb-4">
+            Keep scrolling to swipe through the process
+          </p>
           <div className="h-[3px] w-full rounded-full overflow-hidden" style={{ background: "var(--line)" }}>
             <div ref={barRef} className="h-full" style={{ width: "0%", background: "var(--color-orange)" }} />
           </div>

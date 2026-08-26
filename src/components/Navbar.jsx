@@ -40,9 +40,15 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "py-3 backdrop-blur-md border-b border-[var(--line)]" : "py-5 border-b border-transparent"
+        scrolled || open ? "py-3 backdrop-blur-md border-b border-[var(--line)]" : "py-5 border-b border-transparent"
       }`}
-      style={{ background: scrolled ? "color-mix(in srgb, var(--bg) 82%, transparent)" : "transparent" }}
+      style={{
+        background: open
+          ? "var(--bg)"
+          : scrolled
+            ? "color-mix(in srgb, var(--bg) 82%, transparent)"
+            : "transparent",
+      }}
     >
       <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <a

@@ -1,4 +1,8 @@
-import Reveal from "./Reveal";
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const STATEMENTS = [
   {
@@ -22,15 +26,41 @@ const STATEMENTS = [
 ];
 
 export default function Manifesto() {
+  const wrapRef = useRef(null);
+  const rowsRef = useRef([]);
+  rowsRef.current = [];
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      rowsRef.current.forEach((row, i) => {
+        const dir = STATEMENTS[i].align === "right" ? 1 : -1;
+        gsap.fromTo(
+          row,
+          { xPercent: dir * 40, opacity: 0 },
+          {
+            xPercent: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: { trigger: row, start: "top 85%" },
+          }
+        );
+      });
+    }, wrapRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative py-28 sm:py-36 px-6">
+    <section ref={wrapRef} className="relative py-28 sm:py-36 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto flex flex-col gap-20 sm:gap-28">
-        {STATEMENTS.map((s) => (
-          <Reveal
-            as="div"
+        {STATEMENTS.map((s, i) => (
+          <div
             key={s.n}
-            stagger={0.12}
-            className={`flex flex-col gap-2 ${s.align === "right" ? "items-end text-right" : "items-start text-left"}`}
+            ref={(el) => (rowsRef.current[i] = el)}
+            className={`flex flex-col gap-2 will-change-transform ${
+              s.align === "right" ? "items-end text-right" : "items-start text-left"
+            }`}
           >
             <span className="font-mono text-xs tracking-[0.3em] text-[var(--fg-muted)]">{s.n} /03</span>
             <h2 className="font-display font-black uppercase leading-[0.95] text-[clamp(1.8rem,6vw,4.5rem)] text-[var(--fg-muted)]">
@@ -42,7 +72,7 @@ export default function Manifesto() {
             >
               {s.bold}
             </h2>
-          </Reveal>
+          </div>
         ))}
       </div>
     </section>

@@ -44,44 +44,46 @@
   --invert: 1;
 }
 
-* {
-  box-sizing: border-box;
-}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 
-html {
-  background: var(--bg);
-  scroll-behavior: auto;
-}
+  html {
+    background: var(--bg);
+    scroll-behavior: auto;
+  }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-body);
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
-  transition: background-color 0.5s var(--ease-out-quart), color 0.5s var(--ease-out-quart);
-}
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    transition: background-color 0.5s var(--ease-out-quart), color 0.5s var(--ease-out-quart);
+  }
 
-::selection {
-  background: var(--color-orange);
-  color: #fff;
-}
+  ::selection {
+    background: var(--color-orange);
+    color: #fff;
+  }
 
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--line);
-  border-radius: 10px;
-}
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 10px;
+  }
 
-a {
-  color: inherit;
+  a {
+    color: inherit;
+  }
 }
 
 .font-display {

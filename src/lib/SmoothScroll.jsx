@@ -5,6 +5,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Mobile browsers fire resize events when the address bar shows/hides during scroll,
+// which can otherwise force a ScrollTrigger.refresh() mid-scroll and freeze pinned
+// animations in a broken intermediate state.
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 const LenisContext = createContext(null);
 
 export function SmoothScrollProvider({ children }) {

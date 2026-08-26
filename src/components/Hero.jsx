@@ -28,50 +28,54 @@ export default function Hero() {
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 0.7,
-        },
-      });
+      const entrance = gsap.timeline({ delay: 0.1 });
 
-      tl.to(cueRef.current, { opacity: 0, y: -16, duration: 0.06 }, 0);
-
-      tl.fromTo(
-        ringRef.current,
-        { scale: 3.2, rotate: -25, opacity: 1 },
-        { scale: 1, rotate: 8, duration: 0.42, ease: "none" },
-        0
-      ).to(
-        ringRef.current,
-        { scale: 0.55, opacity: 0.18, rotate: 55, duration: 0.5, ease: "none" },
-        0.42
-      );
-
-      tl.fromTo(bigWordRef.current, { opacity: 0.55 }, { opacity: 0, scale: 1.25, duration: 0.5, ease: "none" }, 0);
-
-      tl.fromTo(blobRef.current, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "none" }, 0.05);
-
-      tl.fromTo(eyebrowRef.current, { yPercent: 130 }, { yPercent: 0, duration: 0.18, ease: "power2.out" }, 0.12)
-        .fromTo(line1Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.22, ease: "power2.out" }, 0.22)
-        .fromTo(line2Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.22, ease: "power2.out" }, 0.36)
-        .fromTo(subRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.18 }, 0.54)
-        .fromTo(ctaRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.18 }, 0.62);
+      entrance
+        .fromTo(eyebrowRef.current, { yPercent: 130 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 0)
+        .fromTo(line1Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0.1)
+        .fromTo(line2Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0.2)
+        .fromTo(subRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.42)
+        .fromTo(ctaRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5);
 
       chipsRef.current.forEach((chip, i) => {
         if (!chip) return;
-        gsap.set(chip, { opacity: 0, y: 30, scale: 0.85 });
-        tl.to(chip, { opacity: 1, y: 0, scale: 1, duration: 0.2 }, 0.5 + i * 0.09);
+        entrance.fromTo(
+          chip,
+          { opacity: 0, y: 30, scale: 0.85 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.5 },
+          0.5 + i * 0.1
+        );
         gsap.to(chip, {
           y: "+=10",
           duration: 2 + i * 0.4,
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
+          delay: 1,
         });
       });
+
+      // The one scroll-driven effect: background ring/wordmark/blob telescope past as the hero is scrolled through.
+      // Kept out of the way of the (now static, load-in) foreground text: the ring starts oversized/off-frame,
+      // the wordmark starts faint, and the blob starts hidden, so nothing competes with the headline at rest.
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: wrapRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+        },
+      })
+        .to(cueRef.current, { opacity: 0, y: -16, duration: 0.06 }, 0)
+        .fromTo(
+          ringRef.current,
+          { scale: 3.2, rotate: -25, opacity: 1 },
+          { scale: 1, rotate: 8, duration: 0.42, ease: "none" },
+          0
+        )
+        .to(ringRef.current, { scale: 0.55, opacity: 0.18, rotate: 55, duration: 0.5, ease: "none" }, 0.42)
+        .fromTo(bigWordRef.current, { opacity: 0.55 }, { opacity: 0, scale: 1.25, duration: 0.5, ease: "none" }, 0)
+        .fromTo(blobRef.current, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 0.85, duration: 0.5, ease: "none" }, 0.05);
     }, wrapRef);
 
     return () => ctx.revert();
@@ -98,7 +102,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={wrapRef} id="hero" className="relative h-[320vh]">
+    <section ref={wrapRef} id="hero" className="relative h-[220vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[var(--bg)]">
         <div
           ref={blobRef}
@@ -108,7 +112,7 @@ export default function Hero() {
 
         <div
           ref={bigWordRef}
-          className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none select-none"
+          className="absolute inset-0 hidden sm:flex items-center justify-center overflow-hidden pointer-events-none select-none"
         >
           <span
             ref={bigWordTextRef}
@@ -142,36 +146,36 @@ export default function Hero() {
         ))}
 
         <div className="relative z-10 max-w-4xl px-6 text-center">
-          <div className="overflow-hidden mb-4 flex justify-center">
+          <div className="overflow-hidden mb-3 flex justify-center">
             <span
               ref={eyebrowRef}
-              className="font-mono text-[11px] sm:text-xs tracking-[0.3em] uppercase border border-[var(--line)] rounded-full px-4 py-1.5 text-[var(--fg-muted)]"
+              className="font-mono text-[11px] sm:text-xs tracking-[0.3em] uppercase border border-[var(--line)] rounded-full px-4 py-1.5 text-[var(--fg-muted)] text-center"
             >
               Strategy · Creative · Media · AI
             </span>
           </div>
 
           <div className="overflow-hidden">
-            <h1 ref={line1Ref} className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)]">
+            <h1 ref={line1Ref} className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)] text-center">
               Beyond content.
             </h1>
           </div>
           <div className="overflow-hidden">
             <h1
               ref={line2Ref}
-              className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)]"
+              className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)] text-center"
               style={{ color: "var(--color-orange)" }}
             >
               Into culture.
             </h1>
           </div>
 
-          <p ref={subRef} className="mt-6 text-base sm:text-lg text-[var(--fg-muted)] max-w-xl mx-auto">
+          <p ref={subRef} className="mt-5 text-base sm:text-lg text-[var(--fg-muted)] max-w-xl mx-auto">
             We don't get lucky. We get it by design. Brand strategy, creative, media and AI —
             built to make you unforgettable.
           </p>
 
-          <div ref={ctaRef} className="mt-8 flex items-center justify-center gap-4">
+          <div ref={ctaRef} className="mt-6 flex items-center justify-center gap-4">
             <a
               href="#work"
               data-cursor="link"

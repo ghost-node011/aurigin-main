@@ -1,113 +1,71 @@
+import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
 import SplitReveal from "./SplitReveal";
 
-const PROJECTS = [
+const CLIENTS = [
   {
-    tag: "Streetwear · Brand Launch",
-    name: "Not For Everyone",
-    challenge: "Launch a new streetwear label in a saturated market.",
-    idea: "Own the subculture. Make it feel like a movement, not a moment.",
-    output: "Brand film, OOH, social, influencer collabs, pop-up event.",
-    stats: [
-      { v: "3.2x", l: "Reach" },
-      { v: "41%", l: "Lift in engagement" },
-      { v: "120K", l: "Views" },
-    ],
+    tab: "PG",
+    name: "Prestige Group",
+    sector: "Real Estate Development",
+    highlight: "Prestige Group Recognition",
     from: "#1a34e0",
     to: "#0a1466",
   },
   {
-    tag: "Skincare · D2C Growth",
-    name: "Lumeo",
-    challenge: "Drive conversions for a D2C skincare launch.",
-    idea: "Creator-led content that educates, entertains and converts.",
-    output: "Short-form content, performance ads, landing page & email flow.",
-    stats: [
-      { v: "2.8%", l: "CTR" },
-      { v: "4.6K", l: "Leads" },
-      { v: "11.2x", l: "ROAS" },
-    ],
+    tab: "GP",
+    name: "Godrej Properties",
+    sector: "Real Estate Development",
+    highlight: "Godrej Riverine — Gold Award · Godrej Jardinia — #SoldOutClub",
     from: "#ff4d1c",
     to: "#8c2100",
   },
+  {
+    tab: "ATS",
+    name: "ATS HomeKraft",
+    sector: "Real Estate Development",
+    highlight: "Brand & campaign partner",
+    from: "#101f8c",
+    to: "#050a33",
+  },
+  {
+    tab: "M3M",
+    name: "M3M India",
+    sector: "Real Estate Development",
+    highlight: "Brand & campaign partner",
+    from: "#3a3a3d",
+    to: "#0b0b0c",
+  },
+  {
+    tab: "SL",
+    name: "SOBHA Limited",
+    sector: "Real Estate Development",
+    highlight: "SOBHA Aurum Recognition",
+    from: "#ffb08a",
+    to: "#c96a3d",
+  },
+  {
+    tab: "CD",
+    name: "Civitech Developers",
+    sector: "Real Estate Development",
+    highlight: "Civitech Stadia Appreciation",
+    from: "#1a34e0",
+    to: "#4d63f0",
+  },
+  {
+    tab: "SSH",
+    name: "Sri Sri Homz",
+    sector: "Real Estate Development",
+    highlight: "Brand & campaign partner",
+    from: "#ff4d1c",
+    to: "#ffb08a",
+  },
 ];
 
-function ProjectCard({ p, i }) {
-  return (
-    <div
-      className="sticky rounded-[2rem] sm:rounded-[2.5rem] border overflow-hidden shadow-2xl"
-      style={{ top: `${5 + i * 2.5}rem`, zIndex: i + 1, borderColor: "var(--line)", background: "var(--card)" }}
-    >
-      <div
-        className="relative h-[46vh] sm:h-[54vh] flex items-center justify-center overflow-hidden"
-        style={{ background: `linear-gradient(135deg, ${p.from}, ${p.to})` }}
-      >
-        <div className="absolute -top-16 -right-16 w-72 h-72 rounded-full bg-white/10 blur-2xl" />
-        <div className="absolute -bottom-24 -left-10 w-80 h-80 rounded-full bg-black/10 blur-2xl" />
-
-        <div className="relative w-[70%] sm:w-[50%] aspect-[4/3] rounded-2xl bg-white/10 backdrop-blur-sm border border-white/25 flex flex-col p-5 gap-3">
-          <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-white/50" />
-            <span className="w-2.5 h-2.5 rounded-full bg-white/50" />
-            <span className="w-2.5 h-2.5 rounded-full bg-white/50" />
-          </div>
-          <div className="flex-1 grid grid-cols-3 gap-3">
-            <div className="col-span-1 rounded-lg bg-white/15" />
-            <div className="col-span-2 flex flex-col gap-2">
-              <div className="h-3 w-3/4 rounded bg-white/25" />
-              <div className="h-3 w-1/2 rounded bg-white/20" />
-              <div className="mt-auto h-8 w-1/3 rounded-full bg-white/40" />
-            </div>
-          </div>
-        </div>
-
-        <span className="absolute top-6 left-6 font-mono text-[11px] uppercase tracking-[0.25em] text-white/80 border border-white/30 rounded-full px-3 py-1">
-          {p.tag}
-        </span>
-        <a
-          href="#contact"
-          data-cursor="link"
-          className="absolute top-6 right-6 w-11 h-11 rounded-full bg-white/90 flex items-center justify-center hover:bg-white transition-colors"
-        >
-          <ArrowUpRight size={20} className="text-black" />
-        </a>
-        <h3 className="absolute bottom-6 left-6 right-6 font-display font-black uppercase text-white text-[clamp(2rem,6vw,4rem)] leading-none">
-          {p.name}
-        </h3>
-      </div>
-
-      <div className="grid sm:grid-cols-[1.4fr_1fr] gap-8 p-7 sm:p-10">
-        <div className="grid sm:grid-cols-3 gap-6">
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--fg-muted)] mb-2">Challenge</p>
-            <p className="text-sm sm:text-base">{p.challenge}</p>
-          </div>
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--fg-muted)] mb-2">Idea</p>
-            <p className="text-sm sm:text-base">{p.idea}</p>
-          </div>
-          <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--fg-muted)] mb-2">Output</p>
-            <p className="text-sm sm:text-base">{p.output}</p>
-          </div>
-        </div>
-        <div className="flex sm:flex-col gap-6 sm:gap-4 sm:border-l sm:pl-8" style={{ borderColor: "var(--line)" }}>
-          {p.stats.map((s) => (
-            <div key={s.l}>
-              <p className="font-display font-black text-2xl sm:text-3xl" style={{ color: "var(--color-orange)" }}>
-                {s.v}
-              </p>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--fg-muted)]">{s.l}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Work() {
+  const [active, setActive] = useState(0);
+  const client = CLIENTS[active];
+
   return (
     <section id="work" className="relative py-28 sm:py-36 px-6 border-t" style={{ borderColor: "var(--line)" }}>
       <div className="max-w-6xl mx-auto">
@@ -123,11 +81,64 @@ export default function Work() {
           </Reveal>
         </div>
 
-        <div className="flex flex-col gap-10">
-          {PROJECTS.map((p, i) => (
-            <ProjectCard key={p.name} p={p} i={i} />
-          ))}
-        </div>
+        <Reveal className="flex flex-col sm:flex-row items-center sm:items-stretch justify-center">
+          <div
+            key={active}
+            className="relative w-full max-w-sm sm:max-w-md aspect-[3/4] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-2xl"
+            style={{ background: `linear-gradient(160deg, ${client.from}, ${client.to})` }}
+          >
+            <div className="absolute -top-16 -right-10 w-64 h-64 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -bottom-20 -left-14 w-72 h-72 rounded-full bg-black/20 blur-3xl" />
+
+            <div className="relative h-full flex flex-col justify-between p-8 sm:p-10">
+              <div className="flex items-center justify-between">
+                <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/70 border border-white/25 rounded-full px-3 py-1">
+                  {client.sector}
+                </span>
+                <a
+                  href="#contact"
+                  data-cursor="link"
+                  className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/25 flex items-center justify-center hover:bg-white/25 transition-colors"
+                >
+                  <ArrowUpRight size={20} className="text-white" />
+                </a>
+              </div>
+
+              <div className="rounded-2xl border border-white/20 bg-white/10 backdrop-blur-xl p-6 shadow-lg">
+                <h3 className="font-display font-black uppercase text-white text-2xl sm:text-3xl leading-none mb-3">
+                  {client.name}
+                </h3>
+                <p className="text-white/80 text-sm sm:text-base">{client.highlight}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full max-w-sm sm:max-w-none sm:w-auto mt-6 sm:mt-0 overflow-x-auto sm:overflow-visible [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: "none" }}>
+            <div
+              className="flex sm:flex-col flex-row justify-start sm:justify-center w-max sm:w-auto mx-auto sm:-ml-6 sm:self-center rounded-full overflow-hidden border divide-x sm:divide-x-0 sm:divide-y divide-[var(--line)] shadow-xl z-10"
+              style={{ borderColor: "var(--line)", background: "var(--card)" }}
+            >
+              {CLIENTS.map((c, i) => (
+                <button
+                  key={c.tab}
+                  onClick={() => setActive(i)}
+                  data-cursor="link"
+                  className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center font-mono text-[11px] font-bold uppercase transition-colors flex-shrink-0"
+                  style={{
+                    color: active === i ? "#fff" : "var(--fg-muted)",
+                    background: active === i ? "var(--color-orange)" : "transparent",
+                  }}
+                >
+                  {c.tab}
+                </button>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <p className="mt-6 text-center text-sm text-[var(--fg-muted)]">
+          Tap a client on the tab to open their case.
+        </p>
       </div>
     </section>
   );
