@@ -7,11 +7,11 @@ import SplitReveal from "./SplitReveal";
 gsap.registerPlugin(ScrollTrigger);
 
 const STEPS = [
-  { n: "01", icon: Binoculars, title: "Discover", desc: "We dig deep: audience, market, culture, insight.", bg: "#1a34e0", fg: "#ffffff" },
-  { n: "02", icon: Compass, title: "Direction", desc: "We find the truth and set a clear direction.", bg: "#0b0b0c", fg: "#f3ecda" },
-  { n: "03", icon: Lightbulb, title: "Ideate", desc: "Big ideas. Bold angles. No safe bets.", bg: "#ffb08a", fg: "#0b0b0c" },
-  { n: "04", icon: PenLine, title: "Create", desc: "Crafting stories, systems and experiences.", bg: "#101f8c", fg: "#ffffff" },
-  { n: "05", icon: Megaphone, title: "Launch", desc: "We launch, learn, and scale what works.", bg: "#ff4d1c", fg: "#ffffff" },
+  { n: "01", icon: Binoculars, title: "Discover", desc: "We dig deep: audience, market, culture, insight.", bg: "#0066ff", fg: "#ffffff" },
+  { n: "02", icon: Compass, title: "Direction", desc: "We find the truth and set a clear direction.", bg: "#0b0b0c", fg: "#ffffff" },
+  { n: "03", icon: Lightbulb, title: "Ideate", desc: "Big ideas. Bold angles. No safe bets.", bg: "#fed828", fg: "#0b0b0c" },
+  { n: "04", icon: PenLine, title: "Create", desc: "Crafting stories, systems and experiences.", bg: "#0066ff", fg: "#ffffff" },
+  { n: "05", icon: Megaphone, title: "Launch", desc: "We launch, learn, and scale what works.", bg: "#fed828", fg: "#0b0b0c" },
 ];
 
 export default function Process() {
@@ -87,7 +87,7 @@ export default function Process() {
                 <div
                   key={s.n}
                   ref={(el) => (cardsRef.current[i] = el)}
-                  className="absolute inset-0 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center justify-center gap-5 text-center shadow-2xl will-change-transform"
+                  className="absolute inset-0 rounded-[2rem] p-8 sm:p-10 flex flex-col items-center justify-center gap-5 text-center shadow-2xl will-change-transform border border-black/10 dark:border-white/10"
                   style={{ background: s.bg, color: s.fg }}
                 >
                   <div
@@ -110,7 +110,7 @@ export default function Process() {
             Keep scrolling to swipe through the process
           </p>
           <div className="h-[3px] w-full rounded-full overflow-hidden" style={{ background: "var(--line)" }}>
-            <div ref={barRef} className="h-full" style={{ width: "0%", background: "var(--color-orange)" }} />
+            <div ref={barRef} className="h-full" style={{ width: "0%", background: "var(--color-blue, #0066ff)" }} />
           </div>
         </div>
       </div>

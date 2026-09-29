@@ -2,13 +2,21 @@ import { ArrowUpRight } from "lucide-react";
 import SplitReveal from "./SplitReveal";
 import Reveal from "./Reveal";
 import { InstagramIcon, LinkedinIcon, XIcon } from "./SocialIcons";
+import { useTheme } from "../lib/ThemeContext";
 
 export default function CTA() {
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   return (
     <section
       id="contact"
-      className="relative py-28 sm:py-40 px-6 overflow-hidden"
-      style={{ background: "var(--fg)", color: "var(--bg)" }}
+      className="relative py-28 sm:py-40 px-6 overflow-hidden border-t"
+      style={{
+        background: isDark ? "var(--bg)" : "var(--fg)",
+        color: isDark ? "var(--fg)" : "var(--bg)",
+        borderColor: "var(--line)"
+      }}
     >
       <div
         className="absolute -right-[20vmin] -top-[20vmin] w-[60vmin] h-[60vmin] rounded-full opacity-90"

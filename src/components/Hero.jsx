@@ -17,7 +17,6 @@ export default function Hero() {
   const bigWordRef = useRef(null);
   const bigWordTextRef = useRef(null);
   const blobRef = useRef(null);
-  const eyebrowRef = useRef(null);
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
   const subRef = useRef(null);
@@ -31,11 +30,10 @@ export default function Hero() {
       const entrance = gsap.timeline({ delay: 0.1 });
 
       entrance
-        .fromTo(eyebrowRef.current, { yPercent: 130 }, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 0)
-        .fromTo(line1Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0.1)
-        .fromTo(line2Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0.2)
-        .fromTo(subRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.42)
-        .fromTo(ctaRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.5);
+        .fromTo(line1Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0)
+        .fromTo(line2Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0.1)
+        .fromTo(subRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.3)
+        .fromTo(ctaRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.4);
 
       chipsRef.current.forEach((chip, i) => {
         if (!chip) return;
@@ -145,16 +143,7 @@ export default function Hero() {
           </div>
         ))}
 
-        <div className="relative z-10 max-w-4xl px-6 text-center">
-          <div className="overflow-hidden mb-3 flex justify-center">
-            <span
-              ref={eyebrowRef}
-              className="font-mono text-[11px] sm:text-xs tracking-[0.3em] uppercase border border-[var(--line)] rounded-full px-4 py-1.5 text-[var(--fg-muted)] text-center"
-            >
-              Strategy · Creative · Media · AI
-            </span>
-          </div>
-
+        <div className="relative z-10 max-w-4xl px-6 text-center pt-16 sm:pt-20">
           <div className="overflow-hidden">
             <h1 ref={line1Ref} className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)] text-center">
               Beyond content.
@@ -164,7 +153,7 @@ export default function Hero() {
             <h1
               ref={line2Ref}
               className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)] text-center"
-              style={{ color: "var(--color-orange)" }}
+              style={{ color: "var(--color-blue, #0066ff)" }}
             >
               Into culture.
             </h1>

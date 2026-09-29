@@ -10,7 +10,6 @@ const LINKS = [
   { href: "#work", label: "Work" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Approach" },
-  { href: "#team", label: "Studio" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -40,83 +39,90 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || open ? "py-3 backdrop-blur-md border-b border-[var(--line)]" : "py-5 border-b border-transparent"
+        scrolled || open
+          ? "py-3 sm:py-3.5 backdrop-blur-xl border-b shadow-sm"
+          : "py-5 sm:py-6 border-b border-transparent"
       }`}
       style={{
+        borderColor: scrolled || open ? "var(--line)" : "transparent",
         background: open
           ? "var(--bg)"
           : scrolled
-            ? "color-mix(in srgb, var(--bg) 82%, transparent)"
+            ? "color-mix(in srgb, var(--bg) 84%, transparent)"
             : "transparent",
       }}
     >
-      <nav className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
         <a
           href="#hero"
           onClick={(e) => goTo(e, "#hero")}
           data-cursor="link"
-          className="flex items-center gap-2 group"
+          className="flex items-center gap-2 group transition-opacity hover:opacity-90"
         >
           <img
             src={theme === "dark" ? logoDark : logoLight}
             alt="Aurigin Media"
-            className="h-8 sm:h-9 w-auto flex-shrink-0"
+            className="h-10 sm:h-11 w-auto flex-shrink-0"
             draggable="false"
           />
         </a>
 
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-7 xl:gap-9">
           {LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => goTo(e, link.href)}
               data-cursor="link"
-              className="font-display text-sm font-semibold uppercase tracking-wide text-[var(--fg-muted)] hover:text-[var(--fg)] transition-colors"
+              className="relative font-display text-xs xl:text-sm font-bold uppercase tracking-wider py-1 group transition-colors"
             >
-              {link.label}
+              <span>{link.label}</span>
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[var(--color-yellow)] transition-all duration-200 ease-out group-hover:w-full" />
             </a>
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
-          <ThemeToggle className="hidden lg:flex" />
+        <div className="flex items-center gap-4 sm:gap-5">
+          <ThemeToggle className="hidden lg:inline-flex" />
           <a
             href="#contact"
             onClick={(e) => goTo(e, "#contact")}
             data-cursor="link"
-            className="hidden lg:inline-block font-display font-bold text-xs uppercase tracking-wide rounded-full px-5 py-2.5 bg-[var(--fg)] text-[var(--bg)] hover:bg-[var(--color-orange)] hover:text-white transition-colors"
+            className="hidden lg:inline-flex items-center justify-center font-display font-bold text-xs uppercase tracking-wider rounded-full px-5 py-2.5 bg-[var(--fg)] text-[var(--bg)] shadow-sm hover:shadow-md transition-all duration-200"
           >
             Start a project
           </a>
           <button
             onClick={() => setOpen((o) => !o)}
-            className="lg:hidden"
+            className="lg:hidden w-9 h-9 rounded-full flex items-center justify-center border border-[var(--line)] text-[var(--fg)] transition-colors hover:border-[var(--color-yellow)] hover:text-[var(--color-yellow)]"
             aria-label="Toggle menu"
           >
-            {open ? <X size={24} /> : <Menu size={24} />}
+            {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </nav>
 
       {open && (
-        <div className="lg:hidden mt-4 px-6 pb-6 flex flex-col gap-4 border-t border-[var(--line)] pt-4">
+        <div
+          className="lg:hidden mt-3 mx-4 px-6 py-6 rounded-2xl border border-[var(--line)] backdrop-blur-2xl shadow-2xl flex flex-col gap-4"
+          style={{ background: "color-mix(in srgb, var(--bg) 95%, transparent)" }}
+        >
           {LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => goTo(e, link.href)}
-              className="font-display text-base font-semibold uppercase tracking-wide"
+              className="font-display text-base font-bold uppercase tracking-wider py-1.5 border-b border-[var(--line)]/40 transition-colors hover:text-[var(--color-yellow)]"
             >
               {link.label}
             </a>
           ))}
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center justify-between pt-3">
             <ThemeToggle />
             <a
               href="#contact"
               onClick={(e) => goTo(e, "#contact")}
-              className="font-display font-bold text-xs uppercase tracking-wide rounded-full px-5 py-2.5 bg-[var(--fg)] text-[var(--bg)]"
+              className="font-display font-bold text-xs uppercase tracking-wider rounded-full px-5 py-2.5 bg-[var(--fg)] text-[var(--bg)]"
             >
               Start a project
             </a>

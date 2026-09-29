@@ -1,22 +1,20 @@
 import { ArrowUp } from "lucide-react";
 import { useLenis } from "../lib/SmoothScroll";
 import { useTheme } from "../lib/ThemeContext";
-import logoLight from "../assets/aurigin-logo-light.png";
 import logoDark from "../assets/aurigin-logo-dark.png";
+import { InstagramIcon, LinkedinIcon, XIcon } from "./SocialIcons";
 
-const LINKS = [
+const NAV_LINKS = [
   { href: "#work", label: "Work" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Approach" },
-  { href: "#team", label: "Studio" },
   { href: "#contact", label: "Contact" },
 ];
 
 export default function Footer() {
   const lenisRef = useLenis();
   const { theme } = useTheme();
-  // footer band background is always var(--fg), the inverse of the page bg
-  const logo = theme === "dark" ? logoLight : logoDark;
+  const isDark = theme === "dark";
 
   const goTo = (e, href) => {
     e.preventDefault();
@@ -30,47 +28,137 @@ export default function Footer() {
 
   return (
     <footer
-      className="px-6 py-12 border-t"
-      style={{ background: "var(--fg)", color: "var(--bg)", borderColor: "color-mix(in srgb, var(--bg) 15%, transparent)" }}
+      className="px-6 sm:px-8 pt-20 pb-12 border-t"
+      style={{
+        background: isDark ? "var(--bg)" : "var(--fg)",
+        color: isDark ? "var(--fg)" : "var(--bg)",
+        borderColor: "var(--line)",
+      }}
     >
-      <div className="max-w-7xl mx-auto flex flex-col gap-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-          <a href="#hero" onClick={(e) => goTo(e, "#hero")} className="flex items-center gap-2">
-            <img src={logo} alt="Aurigin Media" className="h-7 sm:h-8 w-auto" draggable="false" />
-          </a>
-          <p className="font-display font-black uppercase text-2xl sm:text-3xl text-right leading-tight">
-            Let's give them something<br className="hidden sm:block" /> to talk about.
-          </p>
+      <div className="max-w-7xl mx-auto flex flex-col gap-14 sm:gap-16">
+        {/* 4-Column Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+          {/* Column 1: Brand & Statement */}
+          <div className="lg:col-span-4 flex flex-col gap-4">
+            <a
+              href="#hero"
+              onClick={(e) => goTo(e, "#hero")}
+              data-cursor="link"
+              className="inline-block transition-opacity hover:opacity-90 w-fit"
+            >
+              <img src={logoDark} alt="Aurigin Media" className="h-8 sm:h-9 w-auto" draggable="false" />
+            </a>
+            <p className="font-display font-black uppercase text-xl sm:text-2xl leading-tight max-w-sm tracking-tight mt-1">
+              Let's give them something<br className="hidden sm:block" /> to talk about.
+            </p>
+            <p className="text-xs sm:text-sm opacity-60 leading-relaxed max-w-xs font-body">
+              Brand strategy, creative, media & AI. Turning brands into culture.
+            </p>
+          </div>
+
+          {/* Column 2: Navigation */}
+          <div className="lg:col-span-3 flex flex-col gap-3">
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.25em] opacity-40 mb-1">
+              Navigation
+            </h4>
+            <nav className="flex flex-col gap-2.5">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => goTo(e, link.href)}
+                  data-cursor="link"
+                  className="font-display text-sm font-bold uppercase tracking-wider transition-colors hover:text-[var(--color-yellow)] w-fit"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Column 3: Connect & Socials */}
+          <div className="lg:col-span-3 flex flex-col gap-3">
+            <h4 className="font-mono text-[11px] uppercase tracking-[0.25em] opacity-40 mb-1">
+              Connect
+            </h4>
+            <div className="flex flex-col gap-2.5">
+              <a
+                href="#contact"
+                onClick={(e) => goTo(e, "#contact")}
+                data-cursor="link"
+                className="font-display text-sm font-bold uppercase tracking-wider transition-colors hover:text-[var(--color-yellow)] w-fit"
+              >
+                Contact
+              </a>
+              <a
+                href="mailto:hello@aurigin.media"
+                data-cursor="link"
+                className="font-display text-sm font-semibold lowercase tracking-wide transition-colors hover:text-[var(--color-yellow)] w-fit"
+              >
+                hello@aurigin.media
+              </a>
+
+              {/* Small, neat social icons */}
+              <div className="flex items-center gap-2 mt-2">
+                <a
+                  href="#"
+                  data-cursor="link"
+                  aria-label="Instagram"
+                  className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center transition-all duration-200 hover:border-[var(--color-yellow)] hover:text-[var(--color-yellow)] hover:scale-105"
+                >
+                  <InstagramIcon size={14} />
+                </a>
+                <a
+                  href="#"
+                  data-cursor="link"
+                  aria-label="LinkedIn"
+                  className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center transition-all duration-200 hover:border-[var(--color-yellow)] hover:text-[var(--color-yellow)] hover:scale-105"
+                >
+                  <LinkedinIcon size={14} />
+                </a>
+                <a
+                  href="#"
+                  data-cursor="link"
+                  aria-label="X"
+                  className="w-8 h-8 rounded-full border border-[var(--line)] flex items-center justify-center transition-all duration-200 hover:border-[var(--color-yellow)] hover:text-[var(--color-yellow)] hover:scale-105"
+                >
+                  <XIcon size={14} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 4: Studio & Back to Top */}
+          <div className="lg:col-span-2 flex flex-col justify-between items-start lg:items-end gap-6">
+            <div className="flex flex-col items-start lg:items-end gap-2">
+              <h4 className="font-mono text-[11px] uppercase tracking-[0.25em] opacity-40">
+                Studio
+              </h4>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--line)] text-[10px] font-mono uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-yellow)] animate-pulse" />
+                <span className="opacity-80">Available Q3/Q4</span>
+              </div>
+            </div>
+
+            <button
+              onClick={(e) => goTo(e, "#hero")}
+              aria-label="Back to top"
+              data-cursor="link"
+              className="group inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--line)] font-mono text-xs uppercase tracking-wider transition-all duration-200 hover:border-[var(--color-yellow)] hover:text-[var(--color-yellow)]"
+            >
+              <span>Back to top</span>
+              <ArrowUp size={13} className="transition-transform duration-200 group-hover:-translate-y-0.5" />
+            </button>
+          </div>
         </div>
 
-        <div className="h-px w-full" style={{ background: "color-mix(in srgb, var(--bg) 15%, transparent)" }} />
+        {/* Thin divider before copyright */}
+        <div className="h-px w-full" style={{ background: "var(--line)" }} />
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-          <nav className="flex flex-wrap items-center justify-center gap-6">
-            {LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={(e) => goTo(e, l.href)}
-                className="font-display text-xs font-semibold uppercase tracking-wide opacity-70 hover:opacity-100 transition-opacity"
-              >
-                {l.label}
-              </a>
-            ))}
-          </nav>
-
-          <p className="font-mono text-[11px] uppercase tracking-wider opacity-50 order-3 sm:order-2">
-            © {new Date().getFullYear()} Aurigin Media. All rights reserved.
-          </p>
-
-          <button
-            onClick={(e) => goTo(e, "#hero")}
-            aria-label="Back to top"
-            className="order-2 sm:order-3 w-10 h-10 rounded-full border flex items-center justify-center hover:opacity-80 transition-opacity"
-            style={{ borderColor: "color-mix(in srgb, var(--bg) 25%, transparent)" }}
-          >
-            <ArrowUp size={16} />
-          </button>
+        {/* Copyright & credits row */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono opacity-50 tracking-wider">
+          <p>© {new Date().getFullYear()} Aurigin Media. All rights reserved.</p>
+          <p className="uppercase text-[11px]">Beyond content. Into culture.</p>
         </div>
       </div>
     </footer>

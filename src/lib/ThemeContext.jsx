@@ -5,7 +5,8 @@ const ThemeContext = createContext(null);
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return "light";
-    return localStorage.getItem("aurigin-theme") || "light";
+    const saved = localStorage.getItem("aurigin-theme");
+    return saved === "dark" ? "dark" : "light";
   });
 
   useEffect(() => {

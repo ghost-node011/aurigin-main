@@ -63,7 +63,10 @@ export default function Manifesto() {
             }`}
           >
             <span className="font-mono text-xs tracking-[0.3em] text-[var(--fg-muted)]">{s.n} /03</span>
-            <h2 className="font-display font-black uppercase leading-[0.95] text-[clamp(1.8rem,6vw,4.5rem)] text-[var(--fg-muted)]">
+            <h2
+              className="font-display font-black uppercase leading-[0.95] text-[clamp(1.8rem,6vw,4.5rem)]"
+              style={{ color: "var(--color-blue, #0066ff)" }}
+            >
               {s.muted}
             </h2>
             <h2

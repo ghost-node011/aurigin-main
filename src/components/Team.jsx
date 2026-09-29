@@ -6,9 +6,9 @@ import SplitReveal from "./SplitReveal";
 gsap.registerPlugin(ScrollTrigger);
 
 const TEAM = [
-  { name: "Avantika", role: "Project Manager", line: "Keeps every moving part on time.", color: "#0b0b0c" },
-  { name: "Udit", role: "Cofounder", line: "Builds the systems. Ships the vision.", color: "#ff4d1c" },
-  { name: "Arjun", role: "Cofounder", line: "Reads brands. Not spreadsheets.", color: "#1a34e0" },
+  { name: "Avantika", role: "Project Manager", line: "Keeps every moving part on time.", color: "#0b0b0c", textColor: "#ffffff" },
+  { name: "Udit", role: "Cofounder", line: "Builds the systems. Ships the vision.", color: "#fed828", textColor: "#0b0b0c" },
+  { name: "Arjun", role: "Cofounder", line: "Reads brands. Not spreadsheets.", color: "#0066ff", textColor: "#ffffff" },
 ];
 
 export default function Team() {
@@ -74,14 +74,17 @@ export default function Team() {
               style={{ borderColor: "var(--line)", background: "var(--card)" }}
             >
               <div
-                className="w-14 h-14 rounded-full flex items-center justify-center font-display font-black text-lg text-white"
-                style={{ background: m.color }}
+                className="w-14 h-14 rounded-full flex items-center justify-center font-display font-black text-lg"
+                style={{ background: m.color, color: m.textColor }}
               >
                 {m.name[0]}
               </div>
               <div>
                 <p className="font-display font-extrabold text-lg">{m.name}</p>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-orange)] mt-1">
+                <p
+                  className="font-mono text-[10px] uppercase tracking-[0.2em] mt-1"
+                  style={{ color: "var(--color-blue, #0066ff)" }}
+                >
                   {m.role}
                 </p>
               </div>
