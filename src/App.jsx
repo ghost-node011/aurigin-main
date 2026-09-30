@@ -1,5 +1,6 @@
 import { ThemeProvider } from "./lib/ThemeContext";
 import { SmoothScrollProvider } from "./lib/SmoothScroll";
+import LogoIntro from "./components/LogoIntro";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import MarqueeStrip from "./components/MarqueeStrip";
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <ThemeProvider>
       <SmoothScrollProvider>
+        <LogoIntro />
         <div className="grain" />
         <Navbar />
         <main>

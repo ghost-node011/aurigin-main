@@ -3,8 +3,7 @@ import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { useLenis } from "../lib/SmoothScroll";
 import { useTheme } from "../lib/ThemeContext";
-import logoLight from "../assets/aurigin-logo-light.png";
-import logoDark from "../assets/aurigin-logo-dark.png";
+import AnimatedLogo from "./AnimatedLogo";
 
 const LINKS = [
   { href: "#work", label: "Work" },
@@ -40,8 +39,8 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled || open
-          ? "py-3 sm:py-3.5 backdrop-blur-xl border-b shadow-sm"
-          : "py-5 sm:py-6 border-b border-transparent"
+          ? "py-2.5 sm:py-3 backdrop-blur-xl border-b shadow-sm"
+          : "py-4 sm:py-5 border-b border-transparent"
       }`}
       style={{
         borderColor: scrolled || open ? "var(--line)" : "transparent",
@@ -57,14 +56,10 @@ export default function Navbar() {
           href="#hero"
           onClick={(e) => goTo(e, "#hero")}
           data-cursor="link"
-          className="flex items-center gap-2 group transition-opacity hover:opacity-90"
+          className="flex items-center gap-2 group transition-opacity hover:opacity-90 py-0.5"
+          aria-label="Aurigin Media"
         >
-          <img
-            src={theme === "dark" ? logoDark : logoLight}
-            alt="Aurigin Media"
-            className="h-10 sm:h-11 w-auto flex-shrink-0"
-            draggable="false"
-          />
+          <AnimatedLogo className="h-[52px] sm:h-[58px]" animate={false} />
         </a>
 
         <div className="hidden lg:flex items-center gap-7 xl:gap-9">
