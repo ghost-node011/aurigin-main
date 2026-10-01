@@ -1,191 +1,266 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowDown, Heart, PlayCircle, Sparkles } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { ArrowDown, ArrowUpRight, Heart, PlayCircle, Sparkles } from "lucide-react";
 
 const CHIPS = [
-  { icon: Heart, label: "8.7K", sub: "engagement", pos: "top-[16%] left-[8%] md:left-[12%]" },
-  { icon: PlayCircle, label: "120K", sub: "views", pos: "top-[20%] right-[6%] md:right-[10%]" },
-  { icon: Sparkles, label: "41%", sub: "lift", pos: "bottom-[22%] left-[6%] md:left-[10%]" },
+  { icon: Heart, label: "8.7K", sub: "engagement", desc: "Audience resonance" },
+  { icon: PlayCircle, label: "120K", sub: "views", desc: "Organic reach" },
+  { icon: Sparkles, label: "41%", sub: "lift", desc: "Brand conversion" },
 ];
 
 export default function Hero() {
-  const wrapRef = useRef(null);
-  const ringRef = useRef(null);
-  const bigWordRef = useRef(null);
-  const bigWordTextRef = useRef(null);
-  const blobRef = useRef(null);
+  const heroRef = useRef(null);
   const line1Ref = useRef(null);
   const line2Ref = useRef(null);
   const subRef = useRef(null);
   const ctaRef = useRef(null);
+  const chipsWrapRef = useRef(null);
   const cueRef = useRef(null);
-  const chipsRef = useRef([]);
-  chipsRef.current = [];
+  const ringRef = useRef(null);
+  const bigWordTextRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      const entrance = gsap.timeline({ delay: 0.1 });
+      const tl = gsap.timeline({ delay: 0.15 });
 
-      entrance
-        .fromTo(line1Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0)
-        .fromTo(line2Ref.current, { yPercent: 120 }, { yPercent: 0, duration: 0.7, ease: "power3.out" }, 0.1)
-        .fromTo(subRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.3)
-        .fromTo(ctaRef.current, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5 }, 0.4);
-
-      chipsRef.current.forEach((chip, i) => {
-        if (!chip) return;
-        entrance.fromTo(
-          chip,
-          { opacity: 0, y: 30, scale: 0.85 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.5 },
-          0.5 + i * 0.1
-        );
-        gsap.to(chip, {
-          y: "+=10",
-          duration: 2 + i * 0.4,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-          delay: 1,
-        });
-      });
-
-      // The one scroll-driven effect: background ring/wordmark/blob telescope past as the hero is scrolled through.
-      // Kept out of the way of the (now static, load-in) foreground text: the ring starts oversized/off-frame,
-      // the wordmark starts faint, and the blob starts hidden, so nothing competes with the headline at rest.
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: wrapRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true,
-        },
-      })
-        .to(cueRef.current, { opacity: 0, y: -16, duration: 0.06 }, 0)
+      tl.fromTo(
+        line1Ref.current,
+        { yPercent: 120, opacity: 0 },
+        { yPercent: 0, opacity: 1, duration: 0.75, ease: "power3.out" },
+        0
+      )
         .fromTo(
-          ringRef.current,
-          { scale: 3.2, rotate: -25, opacity: 1 },
-          { scale: 1, rotate: 8, duration: 0.42, ease: "none" },
-          0
+          line2Ref.current,
+          { yPercent: 120, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.75, ease: "power3.out" },
+          0.12
         )
-        .to(ringRef.current, { scale: 0.55, opacity: 0.18, rotate: 55, duration: 0.5, ease: "none" }, 0.42)
-        .fromTo(bigWordRef.current, { opacity: 0.55 }, { opacity: 0, scale: 1.25, duration: 0.5, ease: "none" }, 0)
-        .fromTo(blobRef.current, { scale: 0.2, opacity: 0 }, { scale: 1, opacity: 0.85, duration: 0.5, ease: "none" }, 0.05);
-    }, wrapRef);
+        .fromTo(
+          subRef.current,
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+          0.28
+        )
+        .fromTo(
+          ctaRef.current,
+          { opacity: 0, y: 22 },
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+          0.4
+        )
+        .fromTo(
+          chipsWrapRef.current?.children || [],
+          { opacity: 0, x: 28, scale: 0.94 },
+          { opacity: 1, x: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
+          0.45
+        )
+        .fromTo(
+          cueRef.current,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.5, ease: "power2.out" },
+          0.8
+        );
+
+      // Subtle ambient hover motion on the proof cards
+      if (chipsWrapRef.current) {
+        Array.from(chipsWrapRef.current.children).forEach((child, i) => {
+          gsap.to(child, {
+            y: "+=8",
+            duration: 2.2 + i * 0.4,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: 1 + i * 0.2,
+          });
+        });
+      }
+    }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  useLayoutEffect(() => {
-    const el = bigWordTextRef.current;
-    const container = wrapRef.current;
-    if (!el || !container) return;
-
-    const fit = () => {
-      el.style.transform = "scale(1)";
-      const available = container.clientWidth * 0.92;
-      const natural = el.getBoundingClientRect().width;
-      if (natural > 0) {
-        el.style.transform = `scale(${available / natural})`;
-      }
-    };
-
-    fit();
-    document.fonts?.ready?.then(fit);
-    window.addEventListener("resize", fit);
-    return () => window.removeEventListener("resize", fit);
-  }, []);
-
   return (
-    <section ref={wrapRef} id="hero" className="relative h-[220vh]">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center bg-[var(--bg)]">
-        <div
-          ref={blobRef}
-          className="absolute -left-[24vmin] -bottom-[26vmin] w-[70vmin] h-[70vmin] rounded-full"
-          style={{ background: "var(--color-orange)" }}
-        />
-
-        <div
-          ref={bigWordRef}
-          className="absolute inset-0 hidden sm:flex items-center justify-center overflow-hidden pointer-events-none select-none"
+    <section
+      ref={heroRef}
+      id="hero"
+      className="relative min-h-[92vh] sm:min-h-screen flex flex-col justify-center overflow-hidden bg-[var(--bg)] pt-28 sm:pt-36 pb-16"
+    >
+      {/* Background Architectural Watermark & Accent Graphics */}
+      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+        {/* Large watermark brand lettering in background */}
+        <span
+          ref={bigWordTextRef}
+          className="absolute -right-12 bottom-6 hidden lg:block font-display font-black uppercase leading-none opacity-[0.035] dark:opacity-[0.06] text-stroke tracking-tighter"
+          style={{ fontSize: "22vw" }}
         >
-          <span
-            ref={bigWordTextRef}
-            className="inline-block font-display font-black uppercase leading-none text-stroke whitespace-nowrap"
-            style={{ fontSize: "16rem", transformOrigin: "center" }}
-          >
-            aurigin
-          </span>
-        </div>
+          aurigin
+        </span>
 
+        {/* Aurigin Brand Yellow Curved Geometry (shifted to side frame) */}
         <div
           ref={ringRef}
-          className="absolute w-[62vmin] h-[62vmin] rounded-full"
+          className="absolute -right-[15vw] -top-[10vw] w-[50vw] h-[50vw] rounded-full opacity-40 dark:opacity-20 pointer-events-none"
           style={{
-            border: "5.5vmin solid var(--color-orange)",
-            borderRightColor: "transparent",
-            borderTopColor: "transparent",
+            border: "4vw solid var(--color-yellow)",
+            borderLeftColor: "transparent",
+            borderBottomColor: "transparent",
           }}
         />
 
-        {CHIPS.map(({ icon: Icon, label, sub, pos }, i) => (
-          <div
-            key={label}
-            ref={(el) => (chipsRef.current[i] = el)}
-            className={`absolute ${pos} z-20 flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--card)]/90 backdrop-blur px-4 py-2 shadow-lg`}
-          >
-            <Icon size={16} className="text-[var(--color-orange)]" strokeWidth={2.4} />
-            <span className="font-display font-extrabold text-sm">{label}</span>
-            <span className="font-mono text-[10px] uppercase tracking-wider text-[var(--fg-muted)]">{sub}</span>
-          </div>
-        ))}
+        {/* Soft atmospheric gradient blob */}
+        <div
+          className="absolute -left-32 -bottom-32 w-96 h-96 rounded-full opacity-20 dark:opacity-10 blur-3xl pointer-events-none"
+          style={{ background: "var(--color-blue)" }}
+        />
+      </div>
 
-        <div className="relative z-10 max-w-4xl px-6 text-center pt-16 sm:pt-20">
-          <div className="overflow-hidden">
-            <h1 ref={line1Ref} className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)] text-center">
-              Beyond content.
-            </h1>
+      {/* Main Hero Container: Left-Aligned Editorial Architecture (Image 1 Style) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        {/* Left Column: Bold Left-Aligned Headline, Subtitle, Text Link & CTA Buttons */}
+        <div className="lg:col-span-8 flex flex-col items-start text-left">
+          {/* Eyebrow / Agency Tag */}
+          <div className="inline-flex items-center gap-2 mb-4 sm:mb-6">
+            <span className="w-2 h-2 rounded-full bg-[var(--color-blue)]" />
+            <span className="font-mono text-xs tracking-[0.28em] uppercase text-[var(--fg-muted)] font-semibold">
+              Aurigin Media · Built Environment Agency
+            </span>
           </div>
+
+          {/* Main Headline: Left-Aligned, Massive, with Accent Underline on "Culture." */}
           <div className="overflow-hidden">
             <h1
-              ref={line2Ref}
-              className="font-display font-black uppercase leading-[0.94] text-[clamp(2.4rem,8.2vw,6.4rem)] text-center"
-              style={{ color: "var(--color-blue, #0066ff)" }}
+              ref={line1Ref}
+              className="font-display font-black uppercase leading-[0.92] text-[clamp(2.7rem,7.4vw,6.4rem)] text-[var(--fg)] tracking-tight"
             >
-              Into culture.
+              Beyond Content.
             </h1>
           </div>
 
-          <p ref={subRef} className="mt-5 text-base sm:text-lg text-[var(--fg-muted)] max-w-xl mx-auto">
+          <div className="overflow-hidden mt-1 sm:mt-2">
+            <h1
+              ref={line2Ref}
+              className="font-display font-black uppercase leading-[0.92] text-[clamp(2.7rem,7.4vw,6.4rem)] text-[var(--color-blue)] tracking-tight"
+            >
+              Into{" "}
+              <span className="relative inline-block text-[var(--color-blue)]">
+                Culture.
+                {/* Accent Underline Bar (Modeled directly after Image 1's accent underline) */}
+                <span
+                  className="absolute -bottom-1 sm:-bottom-2.5 left-0 w-full h-[6px] sm:h-[8px] rounded-full"
+                  style={{ backgroundColor: "var(--color-blue)" }}
+                />
+              </span>
+            </h1>
+          </div>
+
+          {/* Subtitle Paragraph */}
+          <p
+            ref={subRef}
+            className="mt-6 sm:mt-8 text-base sm:text-xl text-[var(--fg-muted)] max-w-2xl font-normal leading-relaxed"
+          >
             We don't get lucky. We get it by design. Brand strategy, creative, media and AI —
             built to make you unforgettable.
           </p>
 
-          <div ref={ctaRef} className="mt-6 flex items-center justify-center gap-4">
+          {/* Action Row: Editorial Text Link (Image 1 Style) + Aurigin Action Buttons */}
+          <div
+            ref={ctaRef}
+            className="mt-8 sm:mt-11 flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8 w-full sm:w-auto"
+          >
+            {/* Editorial Link with Arrow matching "LEARN ABOUT OUR BRAND PROCESS →" */}
             <a
-              href="#work"
+              href="#process"
               data-cursor="link"
-              className="font-display font-bold uppercase text-sm tracking-wide bg-[var(--fg)] text-[var(--bg)] rounded-full px-7 py-3.5 hover:bg-[var(--color-orange)] hover:text-white transition-colors"
+              className="group inline-flex items-center gap-2.5 font-display font-bold uppercase text-xs sm:text-sm tracking-wider text-[var(--fg)] hover:text-[var(--color-blue)] transition-colors py-1"
             >
-              See our work
+              <span>Learn about our process</span>
+              <span className="inline-block transition-transform duration-200 group-hover:translate-x-1.5 font-mono">
+                →
+              </span>
             </a>
-            <a
-              href="#contact"
-              data-cursor="link"
-              className="font-display font-bold uppercase text-sm tracking-wide border border-[var(--line)] rounded-full px-7 py-3.5 hover:border-[var(--fg)] transition-colors"
-            >
-              Let's talk
-            </a>
+
+            {/* Primary & Secondary Action Buttons */}
+            <div className="flex items-center gap-3">
+              <a
+                href="#work"
+                data-cursor="link"
+                className="font-display font-bold uppercase text-xs sm:text-sm tracking-wide bg-[var(--fg)] text-[var(--bg)] rounded-full px-7 py-3.5 hover:bg-[var(--color-yellow)] hover:text-[#0b0b0c] transition-all duration-200 shadow-sm"
+              >
+                See our work
+              </a>
+              <a
+                href="#contact"
+                data-cursor="link"
+                className="font-display font-bold uppercase text-xs sm:text-sm tracking-wide border border-[var(--line)] rounded-full px-7 py-3.5 text-[var(--fg)] hover:border-[var(--color-blue)] hover:text-[var(--color-blue)] transition-colors"
+              >
+                Let's talk
+              </a>
+            </div>
           </div>
         </div>
 
-        <div ref={cueRef} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-[var(--fg-muted)]">
-          <span className="font-mono text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-          <ArrowDown size={16} className="animate-bounce" />
+        {/* Right Column: Restructured Proof Metrics (8.7K engagement, 120K views, 41% lift) */}
+        <div
+          ref={chipsWrapRef}
+          className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3.5 sm:gap-4 justify-center"
+        >
+          {CHIPS.map(({ icon: Icon, label, sub, desc }) => (
+            <div
+              key={label}
+              className="group relative flex items-center justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-blue)]"
+              style={{
+                borderColor: "var(--line)",
+                background: "color-mix(in srgb, var(--bg-alt) 90%, transparent)",
+                backdropFilter: "blur(12px)",
+              }}
+            >
+              <div className="flex items-center gap-3.5">
+                <div
+                  className="w-11 h-11 rounded-xl flex items-center justify-center border transition-colors"
+                  style={{
+                    borderColor: "var(--line)",
+                    background: "var(--bg)",
+                  }}
+                >
+                  <Icon size={20} className="text-[var(--color-yellow)]" strokeWidth={2.2} />
+                </div>
+                <div>
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display font-black text-2xl text-[var(--fg)] tracking-tight">
+                      {label}
+                    </span>
+                    <span className="font-mono text-xs uppercase tracking-wider text-[var(--color-blue)] font-bold">
+                      {sub}
+                    </span>
+                  </div>
+                  <p className="text-xs text-[var(--fg-muted)] mt-0.5">{desc}</p>
+                </div>
+              </div>
+
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity text-[var(--color-blue)]">
+                <ArrowUpRight size={16} />
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* Bottom Scroll Cue */}
+      <div
+        ref={cueRef}
+        className="relative z-10 mt-12 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full flex items-center justify-between text-[var(--fg-muted)] pt-6 border-t"
+        style={{ borderColor: "var(--line)" }}
+      >
+        <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-[var(--fg-muted)]">
+          Selected Built-Environment Cases
+        </span>
+
+        <a
+          href="#services"
+          className="flex items-center gap-2 font-mono text-[11px] tracking-[0.25em] uppercase hover:text-[var(--color-blue)] transition-colors"
+        >
+          <span>Scroll</span>
+          <ArrowDown size={14} className="animate-bounce" />
+        </a>
       </div>
     </section>
   );

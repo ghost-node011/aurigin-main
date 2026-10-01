@@ -37,11 +37,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || open
-          ? "py-2.5 sm:py-3 backdrop-blur-xl border-b shadow-sm"
-          : "py-4 sm:py-5 border-b border-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled || open
+        ? "py-2.5 sm:py-3 backdrop-blur-xl border-b shadow-sm"
+        : "py-4 sm:py-5 border-b border-transparent"
+        }`}
       style={{
         borderColor: scrolled || open ? "var(--line)" : "transparent",
         background: open
