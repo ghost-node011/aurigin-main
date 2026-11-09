@@ -61,7 +61,8 @@
 a.bg-\[var\(--fg\)\],
 button.bg-\[var\(--fg\)\],
 a[href="#contact"].border,
-a[href^="mailto:"] {
+#contact a[href^="mailto:"],
+#contact a[href^="tel:"] {
   background-color: var(--color-blue) !important;
   color: #ffffff !important;
   border-color: transparent !important;
@@ -73,7 +74,8 @@ a[href^="mailto:"] {
 a.bg-\[var\(--fg\)\]:hover,
 button.bg-\[var\(--fg\)\]:hover,
 a[href="#contact"].border:hover,
-a[href^="mailto:"]:hover {
+#contact a[href^="mailto:"]:hover,
+#contact a[href^="tel:"]:hover {
   background-color: var(--color-yellow) !important;
   color: #0b0b0c !important;
   box-shadow: 0 6px 24px rgba(254, 216, 40, 0.35);
