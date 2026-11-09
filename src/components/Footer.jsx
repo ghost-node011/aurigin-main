@@ -1,6 +1,7 @@
 import { ArrowUp } from "lucide-react";
 import { useLenis } from "../lib/SmoothScroll";
 import { useTheme } from "../lib/ThemeContext";
+import { EMAIL, EMAIL_HREF, PHONE, PHONE_HREF } from "../lib/contact";
 import logoDark from "../assets/aurigin-logo-dark.png";
 import { InstagramIcon, LinkedinIcon, XIcon } from "./SocialIcons";
 
@@ -91,11 +92,18 @@ export default function Footer() {
                 Contact
               </a>
               <a
-                href="mailto:hello@aurigin.media"
+                href={EMAIL_HREF}
                 data-cursor="link"
                 className="font-display text-sm font-semibold lowercase tracking-wide transition-colors hover:text-[var(--color-yellow)] w-fit"
               >
-                hello@aurigin.media
+                {EMAIL}
+              </a>
+              <a
+                href={PHONE_HREF}
+                data-cursor="link"
+                className="font-display text-sm font-semibold tracking-wide transition-colors hover:text-[var(--color-yellow)] w-fit"
+              >
+                {PHONE}
               </a>
 
               {/* Small, neat social icons */}
@@ -156,9 +164,13 @@ export default function Footer() {
         <div className="h-px w-full" style={{ background: "var(--line)" }} />
 
         {/* Copyright & credits row */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono opacity-50 tracking-wider">
-          <p>© {new Date().getFullYear()} Aurigin Media. All rights reserved.</p>
-          <p className="uppercase text-[11px]">Beyond content. Into culture.</p>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono tracking-wider">
+          <p className="opacity-50">© {new Date().getFullYear()} Aurigin Media. All rights reserved.</p>
+          <div className="flex items-center gap-5">
+            <a href="/terms/" data-cursor="link" className="transition-colors">Terms & Conditions</a>
+            <a href="/privacy/" data-cursor="link" className="transition-colors">Privacy Policy</a>
+          </div>
+          <p className="uppercase text-[11px] opacity-50">Beyond content. Into culture.</p>
         </div>
       </div>
     </footer>
