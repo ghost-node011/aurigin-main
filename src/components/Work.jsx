@@ -2,65 +2,7 @@ import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
 import SplitReveal from "./SplitReveal";
-
-const CLIENTS = [
-  {
-    tab: "PG",
-    name: "Prestige Group",
-    sector: "Real Estate Development",
-    highlight: "Prestige Group Recognition",
-    from: "#1a34e0",
-    to: "#0a1466",
-  },
-  {
-    tab: "GP",
-    name: "Godrej Properties",
-    sector: "Real Estate Development",
-    highlight: "Godrej Riverine — Gold Award · Godrej Jardinia — #SoldOutClub",
-    from: "#ff4d1c",
-    to: "#8c2100",
-  },
-  {
-    tab: "ATS",
-    name: "ATS HomeKraft",
-    sector: "Real Estate Development",
-    highlight: "Brand & campaign partner",
-    from: "#101f8c",
-    to: "#050a33",
-  },
-  {
-    tab: "M3M",
-    name: "M3M India",
-    sector: "Real Estate Development",
-    highlight: "Brand & campaign partner",
-    from: "#3a3a3d",
-    to: "#0b0b0c",
-  },
-  {
-    tab: "SL",
-    name: "SOBHA Limited",
-    sector: "Real Estate Development",
-    highlight: "SOBHA Aurum Recognition",
-    from: "#ffb08a",
-    to: "#c96a3d",
-  },
-  {
-    tab: "CD",
-    name: "Civitech Developers",
-    sector: "Real Estate Development",
-    highlight: "Civitech Stadia Appreciation",
-    from: "#1a34e0",
-    to: "#4d63f0",
-  },
-  {
-    tab: "SSH",
-    name: "Sri Sri Homz",
-    sector: "Real Estate Development",
-    highlight: "Brand & campaign partner",
-    from: "#ff4d1c",
-    to: "#ffb08a",
-  },
-];
+import { CLIENTS } from "../lib/clients";
 
 export default function Work() {
   const [active, setActive] = useState(0);
