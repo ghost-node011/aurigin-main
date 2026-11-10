@@ -1,4 +1,5 @@
-import LegalPage, { ContactDetails, List, Section, TextLink } from "./LegalPage";
+import TextLink from "../components/TextLink";
+import LegalPage, { ContactDetails, List, Section } from "./LegalPage";
 
 export default function Terms() {
   return (

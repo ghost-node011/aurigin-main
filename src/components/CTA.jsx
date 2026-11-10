@@ -1,9 +1,8 @@
-import { Mail, Phone } from "lucide-react";
 import SplitReveal from "./SplitReveal";
 import Reveal from "./Reveal";
 import { InstagramIcon, LinkedinIcon, XIcon } from "./SocialIcons";
 import { useTheme } from "../lib/ThemeContext";
-import { EMAIL, EMAIL_HREF, PHONE, PHONE_HREF } from "../lib/contact";
+import ContactButtons from "./ContactButtons";
 
 export default function CTA() {
   const { theme } = useTheme();
@@ -32,22 +31,7 @@ export default function CTA() {
         <Reveal className="mt-6 text-lg opacity-70">Clarity. Creativity. Cultural impact.</Reveal>
 
         <Reveal className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href={EMAIL_HREF}
-            data-cursor="link"
-            className="w-full max-w-xs sm:w-72 font-display font-bold text-sm tracking-wide rounded-full px-6 py-4 flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5"
-          >
-            <Mail size={18} />
-            {EMAIL}
-          </a>
-          <a
-            href={PHONE_HREF}
-            data-cursor="link"
-            className="w-full max-w-xs sm:w-72 font-display font-bold text-sm tracking-wide rounded-full px-6 py-4 flex items-center justify-center gap-2 transition-transform hover:-translate-y-0.5"
-          >
-            <Phone size={18} />
-            {PHONE}
-          </a>
+          <ContactButtons />
         </Reveal>
 
         <Reveal className="mt-16 flex items-center justify-center gap-6 opacity-70">

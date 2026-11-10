@@ -7,6 +7,7 @@ import AnimatedLogo from "./AnimatedLogo";
 
 const LINKS = [
   { href: "#work", label: "Work" },
+  { href: "/portfolio/", label: "Portfolio" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Approach" },
   { href: "#contact", label: "Contact" },
@@ -25,8 +26,9 @@ export default function Navbar() {
   }, []);
 
   const goTo = (e, href) => {
-    e.preventDefault();
     setOpen(false);
+    if (!href.startsWith("#")) return; // Links to other pages navigate normally.
+    e.preventDefault();
     const target = document.querySelector(href);
     if (target && lenisRef?.current) {
       lenisRef.current.scrollTo(target, { offset: -70, duration: 1.3 });

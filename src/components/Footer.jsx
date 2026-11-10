@@ -7,6 +7,7 @@ import { InstagramIcon, LinkedinIcon, XIcon } from "./SocialIcons";
 
 const NAV_LINKS = [
   { href: "#work", label: "Work" },
+  { href: "/portfolio/", label: "Portfolio" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Approach" },
   { href: "#contact", label: "Contact" },
@@ -18,6 +19,7 @@ export default function Footer() {
   const isDark = theme === "dark";
 
   const goTo = (e, href) => {
+    if (!href.startsWith("#")) return; // Links to other pages navigate normally.
     e.preventDefault();
     const target = document.querySelector(href);
     if (target && lenisRef?.current) {
