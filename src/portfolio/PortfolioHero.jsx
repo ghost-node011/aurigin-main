@@ -8,7 +8,7 @@ const SECTORS = ["Real estate", "Construction", "Architecture", "Interior design
 
 const COLUMN_LINES = {
   backgroundImage:
-    "repeating-linear-gradient(90deg, rgba(243, 236, 218, 0.14) 0 1px, transparent 1px calc(100% / 12))",
+    "repeating-linear-gradient(90deg, var(--ph-grid) 0 1px, transparent 1px calc(100% / 12))",
 };
 
 // Real project covers shown in the floating stack, back to front.
@@ -19,7 +19,10 @@ const SHOWCASE = [
 ].map((item) => ({ ...item, image: PROJECTS.find((p) => p.name === item.name).slides[0].thumb }));
 
 const MARQUEE_ITEMS = Array.from({ length: 6 }, (_, index) => (
-  <span key={index} className="flex items-center gap-8 font-mono text-[11px] uppercase tracking-[0.2em]">
+  <span
+    key={index}
+    className="flex items-center gap-8 font-mono text-[11px] uppercase tracking-[0.2em]"
+  >
     {SECTORS.map((sector) => (
       <span key={sector} className="flex items-center gap-8">
         <span>{sector}</span>
@@ -38,11 +41,15 @@ function FloatingCover({ name, image, className, rotate, delay }) {
       transition={{ duration: 1.1, delay, ease: EASE }}
     >
       <motion.div
-        className="overflow-hidden rounded-xl border border-white/15 bg-white p-1.5 shadow-2xl shadow-black/60"
+        className="overflow-hidden rounded-xl border border-black/10 bg-white p-1.5 shadow-2xl shadow-black/25 dark:border-white/15 dark:shadow-black/60"
         animate={{ y: [0, -12, 0] }}
         transition={{ duration: 6, delay: delay + 1, repeat: Infinity, ease: "easeInOut" }}
       >
-        <img src={image} alt={`${name} project`} className="aspect-video w-full rounded-lg object-cover" />
+        <img
+          src={image}
+          alt={`${name} project`}
+          className="aspect-video w-full rounded-lg object-cover"
+        />
       </motion.div>
     </motion.div>
   );
@@ -51,12 +58,18 @@ function FloatingCover({ name, image, className, rotate, delay }) {
 export default function PortfolioHero() {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="overflow-hidden" style={{ background: "var(--color-ink)", color: "#f3ecda" }}>
-        <div className="relative flex min-h-[600px] flex-col sm:min-h-[640px] lg:min-h-[620px]" style={COLUMN_LINES}>
+      <section className="portfolio-hero overflow-hidden">
+        <div
+          className="relative flex min-h-[600px] flex-col sm:min-h-[640px] lg:min-h-[620px]"
+          style={COLUMN_LINES}
+        >
           {/* Top row */}
-          <div className="relative z-10 flex h-16 items-center justify-between border-b border-white/15 px-6 font-mono text-[11px] uppercase tracking-[0.25em] sm:px-8">
+          <div className="relative z-10 flex h-16 items-center justify-between border-b border-[var(--ph-line)] px-6 font-mono text-[11px] uppercase tracking-[0.25em] sm:px-8">
             <span className="flex items-center gap-3">
-              <span className="h-2 w-2 animate-pulse rounded-full" style={{ background: "var(--color-yellow)" }} />
+              <span
+                className="h-2 w-2 animate-pulse rounded-full"
+                style={{ background: "var(--ph-accent)" }}
+              />
               Selected work
             </span>
             <span>({String(PROJECTS.length).padStart(2, "0")}) Projects</span>
@@ -98,14 +111,19 @@ export default function PortfolioHero() {
                 animate={{ opacity: 0.8, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6, ease: EASE }}
               >
-                Marketing built for the built environment. Websites, brands and 3D work for the businesses
-                that shape a space.
+                Marketing built for the built environment. Websites, brands and 3D work for the
+                businesses that shape a space.
               </motion.p>
             </div>
           </div>
         </div>
 
-        <Marquee items={MARQUEE_ITEMS} slow gap="gap-8" className="border-t border-white/15 py-3 opacity-80" />
+        <Marquee
+          items={MARQUEE_ITEMS}
+          slow
+          gap="gap-8"
+          className="portfolio-hero__strip border-t border-[var(--ph-line)] py-3"
+        />
       </section>
     </MotionConfig>
   );

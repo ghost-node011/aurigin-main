@@ -23,6 +23,7 @@ const MAPS_PLACE_ID = "0x390ce215ddd91f4d:0xf4c565534faab0e7";
 const MAPS_CID = "17637614924159693031"; // decimal form of the place id's second half
 
 export const OFFICE = {
+  floor: "1st Floor",
   name: "Delhi Co.",
   area: "Green Park, New Delhi",
   mapEmbedUrl: `https://maps.google.com/maps?q=${encodeURIComponent(
@@ -33,8 +34,8 @@ export const OFFICE = {
 
 /**
  * Builds a mailto: link containing every field of the contact form.
- * The site has no backend, so the enquiry is handed to the visitor's email app.
- * To send it to a form service instead, replace this with a fetch() call.
+ * Used as a fallback when sending through EmailJS fails (see sendEnquiry.js),
+ * so the visitor can still send their enquiry from their own email app.
  */
 export function buildEnquiryMailto({ name, email, phone, company, services, message }) {
   const lines = [

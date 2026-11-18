@@ -170,7 +170,7 @@ export default function Hero() {
               ref={line1Ref}
               className="font-display font-black uppercase leading-[0.92] text-[clamp(2.7rem,7.4vw,6.4rem)] text-[var(--fg)] tracking-tight"
             >
-              Beyond Content.
+              Beyond Content<span className="text-[var(--color-yellow)]">.</span>
             </h1>
           </div>
 

@@ -5,7 +5,7 @@ import ContactDetails from "./ContactDetails";
 export default function ContactPage() {
   return (
     <PageShell width="max-w-6xl">
-      <main className="flex-1">
+      <main className="contact-page flex-1">
         {/* Page header */}
         <section className="relative overflow-hidden px-6 pt-14 pb-12 sm:px-8 sm:pt-20 sm:pb-16">
           <div

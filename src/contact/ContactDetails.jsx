@@ -7,7 +7,8 @@ const DETAILS = [
   {
     icon: MapPin,
     label: "Office",
-    value: `${OFFICE.name}, ${OFFICE.area}`,
+    value: `${OFFICE.floor}, ${OFFICE.name}`,
+    detail: OFFICE.area,
     href: OFFICE.mapLinkUrl,
     external: true,
   },
@@ -17,7 +18,7 @@ export default function ContactDetails() {
   return (
     <div className="flex flex-col gap-6 lg:sticky lg:top-8">
       <ul className="flex flex-col gap-3">
-        {DETAILS.map(({ icon: Icon, label, value, href, external }) => (
+        {DETAILS.map(({ icon: Icon, label, value, detail, href, external }) => (
           <li key={label}>
             <a
               href={href}
@@ -38,6 +39,11 @@ export default function ContactDetails() {
                 <span className="block truncate font-display text-sm font-bold sm:text-base">
                   {value}
                 </span>
+                {detail && (
+                  <span className="block truncate text-xs text-[var(--fg-muted)] sm:text-sm">
+                    {detail}
+                  </span>
+                )}
               </span>
               <ArrowUpRight
                 size={16}
@@ -55,7 +61,7 @@ export default function ContactDetails() {
         style={{ borderColor: "var(--line)", background: "var(--card)" }}
       >
         <iframe
-          title={`Map showing ${OFFICE.name}, ${OFFICE.area}`}
+          title={`Map showing ${OFFICE.floor}, ${OFFICE.name}, ${OFFICE.area}`}
           src={OFFICE.mapEmbedUrl}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

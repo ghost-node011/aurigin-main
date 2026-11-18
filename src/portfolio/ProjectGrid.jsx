@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Globe } from "lucide-react";
 
 function getColumns() {
@@ -19,29 +19,78 @@ function useColumns() {
   return columns;
 }
 
+// Columns that hold a project in a given checkerboard row.
+function checkerSlots(row, columns) {
+  const slots = [];
+  for (let column = 0; column < columns; column++) {
+    if ((row + column) % 2 === 0) slots.push(column);
+  }
+  return slots;
+}
+
+// Slots for the final row when fewer projects are left than the row normally holds.
+// Prefer the other checkerboard parity if it fits exactly (keeps the pattern symmetric),
+// otherwise centre the leftover projects so nothing sits alone at an edge.
+function lastRowSlots(row, columns, remaining) {
+  const alternate = checkerSlots(row + 1, columns);
+  if (alternate.length === remaining) return alternate;
+  const start = Math.floor((columns - remaining) / 2);
+  return Array.from({ length: remaining }, (_, i) => start + i);
+}
+
 // Lays projects out on a checkerboard; the remaining cells show a dot.
 function buildCells(projects, columns) {
   const cells = [];
   let placed = 0;
   for (let row = 0; placed < projects.length; row++) {
+    const remaining = projects.length - placed;
+    let slots = checkerSlots(row, columns);
+    if (remaining < slots.length) slots = lastRowSlots(row, columns, remaining);
+
     for (let column = 0; column < columns; column++) {
-      const isProjectCell = (row + column) % 2 === 0 && placed < projects.length;
-      cells.push(isProjectCell ? projects[placed++] : null);
+      cells.push(slots.includes(column) ? projects[placed++] : null);
     }
   }
   return cells;
 }
 
-function ProjectCard({ project, onOpen }) {
+const PRESS_DURATION = 380; // ms — matches the portfolio-card-press animation in index.css
+
+const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function ProjectCard({ project, onOpen, order }) {
   const cover = project.slides[0];
+  const [pressed, setPressed] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
+  // Play the outline pulse, then open the slides once it has been seen.
+  const handleOpen = () => {
+    if (prefersReducedMotion()) {
+      onOpen(project);
+      return;
+    }
+    setPressed(true);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setPressed(false);
+      onOpen(project);
+    }, PRESS_DURATION);
+  };
 
   return (
-    <article className="portfolio-card group relative flex h-full flex-col overflow-hidden rounded-2xl border p-2">
+    <article
+      className={`portfolio-card group relative flex h-full flex-col overflow-hidden rounded-2xl border p-2 ${
+        pressed ? "is-pressed" : ""
+      }`}
+      style={{ "--i": order }}
+    >
       <h3 className="flex min-h-12 items-center justify-center px-1 text-center font-mono text-[11px] font-medium uppercase tracking-wider sm:text-xs">
         {/* Stretched button: the whole card opens the viewer. */}
         <button
           type="button"
-          onClick={() => onOpen(project)}
+          onClick={handleOpen}
           className="uppercase after:absolute after:inset-0 after:z-10 after:rounded-2xl after:cursor-pointer focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-[var(--color-blue)]"
         >
           {project.name}
@@ -95,12 +144,13 @@ export default function ProjectGrid({ projects, onOpen }) {
     >
       {cells.map((project, index) =>
         project ? (
-          <ProjectCard key={project.name} project={project} onOpen={onOpen} />
+          <ProjectCard key={project.name} project={project} onOpen={onOpen} order={index} />
         ) : (
           <div
             key={`empty-${index}`}
             aria-hidden="true"
-            className="flex items-center justify-center"
+            className="portfolio-grid__cell flex items-center justify-center"
+            style={{ "--i": index }}
           >
             <span className="portfolio-grid__dot h-1 w-1" />
           </div>

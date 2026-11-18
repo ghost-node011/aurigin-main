@@ -107,15 +107,6 @@ const RAW_PROJECTS = [
   },
   { name: "Tao of Hemp", group: "Other sectors", slides: [[43, "Brand and product discovery"]] },
   {
-    name: "Global Vault Group",
-    website: "https://www.globalvaultgroup.com/",
-    group: "Other sectors",
-    slides: [
-      [44, "Corporate website"],
-      [45, "Service information on mobile"],
-    ],
-  },
-  {
     name: "The Date House",
     group: "Other sectors",
     slides: [

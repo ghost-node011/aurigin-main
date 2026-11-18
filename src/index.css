@@ -111,6 +111,37 @@ header.border-b {
   color: var(--fg) !important;
 }
 
+/* Portfolio page header: white with ink text (light), ink with cream text (dark) */
+.portfolio-hero {
+  --ph-bg: #ffffff;
+  --ph-fg: var(--color-ink);
+  --ph-line: rgba(11, 11, 12, 0.12);
+  --ph-grid: rgba(11, 11, 12, 0.07);
+  --ph-accent: var(--color-blue);
+  background: var(--ph-bg);
+  color: var(--ph-fg);
+}
+
+[data-theme="dark"] .portfolio-hero {
+  --ph-bg: var(--color-ink);
+  --ph-fg: #f3ecda;
+  --ph-line: rgba(255, 255, 255, 0.15);
+  --ph-grid: rgba(243, 236, 218, 0.14);
+  --ph-accent: var(--color-yellow);
+}
+
+/* Contact page, dark theme: brand yellow replaces blue for every accent
+   (required stars, ticked services, borders, focus rings, icons, map link). */
+[data-theme="dark"] .contact-page {
+  --color-blue: var(--color-yellow);
+  --line: rgba(254, 216, 40, 0.22);
+}
+
+/* Ticked service boxes: dark text on the yellow fill for contrast */
+[data-theme="dark"] .contact-page input:checked + span {
+  color: #0b0b0c;
+}
+
 /* ==========================================================================
    Portfolio grid: white cards on a black backdrop (light theme),
    charcoal cards on near-black (dark theme).
@@ -126,9 +157,27 @@ header.border-b {
   padding: 6px;
 }
 
+/* Filter toolbar: white with ink text (light), near-black with cream text (dark) */
+.portfolio-toolbar {
+  --tb-fg: var(--color-ink);
+  --tb-muted: rgba(11, 11, 12, 0.5);
+  --tb-line: rgba(11, 11, 12, 0.15);
+  background: #ffffff;
+  box-shadow: inset 0 0 0 1px rgba(11, 11, 12, 0.08), 0 1px 2px rgba(11, 11, 12, 0.06);
+}
+
 [data-theme="dark"] .portfolio-toolbar {
+  --tb-fg: #f3ecda;
+  --tb-muted: rgba(243, 236, 218, 0.55);
+  --tb-line: rgba(255, 255, 255, 0.15);
   background: #050506;
   box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* Sector ticker under the portfolio header: solid black band with cream text (both themes) */
+.portfolio-hero__strip {
+  background: var(--color-ink);
+  color: #f3ecda;
 }
 
 /* Small markers in the empty checkerboard cells */
@@ -173,14 +222,76 @@ header.border-b {
   color: var(--color-blue);
 }
 
+/* Dark theme is the inverse: white gaps, charcoal cards with a black outline */
 [data-theme="dark"] .portfolio-grid {
-  background: #050506;
-  box-shadow: inset 0 0 0 1px var(--line);
+  background: #ffffff;
+}
+
+[data-theme="dark"] .portfolio-grid__dot {
+  background: rgba(11, 11, 12, 0.35);
 }
 
 [data-theme="dark"] .portfolio-card {
   background: linear-gradient(160deg, #1c1c20 0%, #111113 100%);
-  border-color: var(--line);
+  border-color: #000000;
+  box-shadow: 0 0 0 1px #000000;
+}
+
+[data-theme="dark"] .portfolio-card:hover {
+  box-shadow: 0 0 0 2px #000000, 0 18px 36px -12px rgba(0, 0, 0, 0.55);
+}
+
+/* Staggered entrance: cards rise in one after another (delay set per card via --i).
+   "backwards" fill only applies before the animation starts, so hover transforms still work. */
+@keyframes portfolio-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+}
+
+.portfolio-card {
+  animation: portfolio-card-in 0.55s var(--ease-out-quart) backwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* Click feedback: a glowing outline pulses out from the card before the slides open */
+.portfolio-card {
+  --press-rgb: 0, 102, 255; /* brand blue */
+}
+
+[data-theme="dark"] .portfolio-card {
+  --press-rgb: 254, 216, 40; /* brand yellow */
+}
+
+.portfolio-card.is-pressed {
+  z-index: 30;
+  animation: portfolio-card-press 0.38s var(--ease-out-quart);
+}
+
+@keyframes portfolio-card-press {
+  0% {
+    transform: translateY(-4px) scale(1);
+    box-shadow: 0 0 0 2px rgb(var(--press-rgb)), 0 0 0 0 rgba(var(--press-rgb), 0.65);
+  }
+  35% {
+    transform: translateY(-1px) scale(0.97);
+  }
+  100% {
+    transform: translateY(-4px) scale(1);
+    box-shadow: 0 0 0 2px rgb(var(--press-rgb)), 0 0 0 16px rgba(var(--press-rgb), 0);
+  }
+}
+
+.portfolio-grid__cell {
+  animation: portfolio-cell-in 0.6s ease backwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+@keyframes portfolio-cell-in {
+  from {
+    opacity: 0;
+  }
 }
 
 [data-theme="dark"] .portfolio-card__thumb {
@@ -198,6 +309,10 @@ header.border-b {
   }
   .portfolio-card:hover {
     transform: none;
+  }
+  .portfolio-card,
+  .portfolio-grid__cell {
+    animation: none;
   }
 }
 

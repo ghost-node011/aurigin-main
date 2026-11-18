@@ -1,7 +1,8 @@
 import { useId, useState } from "react";
-import { ArrowRight, Check, CheckCircle2 } from "lucide-react";
+import { AlertCircle, ArrowRight, Check, CheckCircle2, Loader2 } from "lucide-react";
 import { SERVICES } from "../lib/services";
-import { EMAIL, EMAIL_HREF, buildEnquiryMailto } from "../lib/contact";
+import { EMAIL, buildEnquiryMailto } from "../lib/contact";
+import { sendEnquiry } from "../lib/sendEnquiry";
 
 const SERVICE_OPTIONS = [...SERVICES.map((service) => service.title), "Something else"];
 
@@ -43,25 +44,40 @@ function ServiceCheckbox({ value }) {
 export default function ContactForm() {
   const id = useId();
   const [servicesError, setServicesError] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  // "idle" → "sending" → "sent" | "error"
+  const [status, setStatus] = useState("idle");
+  // Last enquiry, kept so the error fallback can open it in the visitor's email app.
+  const [enquiry, setEnquiry] = useState(null);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    if (status === "sending") return;
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
     const services = data.getAll("services");
 
     if (services.length === 0) {
       setServicesError(true);
-      event.currentTarget.querySelector('input[name="services"]')?.focus();
+      form.querySelector('input[name="services"]')?.focus();
       return;
     }
 
-    const enquiry = Object.fromEntries(data.entries());
-    window.location.href = buildEnquiryMailto({ ...enquiry, services });
-    setSubmitted(true);
+    const details = { ...Object.fromEntries(data.entries()), services };
+    setEnquiry(details);
+    setStatus("sending");
+
+    try {
+      await sendEnquiry(details);
+      form.reset();
+      setStatus("sent");
+    } catch (error) {
+      console.error("Contact form: EmailJS send failed", error);
+      setStatus("error");
+    }
   };
 
-  if (submitted) {
+  if (status === "sent") {
     return (
       <div
         className="rounded-3xl border p-8 text-center sm:p-12"
@@ -70,30 +86,35 @@ export default function ContactForm() {
       >
         <CheckCircle2 size={48} className="mx-auto text-[var(--color-blue)]" />
         <h2 className="mt-5 font-display text-2xl font-black uppercase sm:text-3xl">
-          Almost there!
+          Thank you{enquiry?.name ? `, ${enquiry.name.split(" ")[0]}` : ""}!
         </h2>
         <p className="mx-auto mt-3 max-w-md text-[var(--fg-muted)]">
-          Your email app should have opened with your enquiry filled in — just hit send. If it
-          didn't open, email us at{" "}
-          <a href={EMAIL_HREF} className="font-semibold text-[var(--color-blue)] hover:underline">
-            {EMAIL}
-          </a>
+          Your enquiry has been sent to our team. We'll get back to you within one working day
+          {enquiry?.email ? (
+            <>
+              {" "}
+              at <span className="font-semibold text-[var(--fg)]">{enquiry.email}</span>
+            </>
+          ) : null}
           .
         </p>
         <button
           type="button"
-          onClick={() => setSubmitted(false)}
+          onClick={() => setStatus("idle")}
           className="mt-8 font-display text-xs font-bold uppercase tracking-wider text-[var(--fg-muted)] underline-offset-4 hover:text-[var(--color-blue)] hover:underline"
         >
-          Edit my enquiry
+          Send another enquiry
         </button>
       </div>
     );
   }
 
+  const sending = status === "sending";
+
   return (
     <form
       onSubmit={handleSubmit}
+      aria-busy={sending}
       className="contact-form rounded-3xl border p-6 shadow-sm sm:p-10"
       style={{ borderColor: "var(--line)", background: "var(--card)" }}
     >
@@ -193,19 +214,49 @@ export default function ContactForm() {
         </Field>
       </div>
 
+      {/* Send failed: keep the form filled in and offer the email-app fallback */}
+      {status === "error" && (
+        <div
+          role="alert"
+          className="mt-8 flex items-start gap-3 rounded-xl border border-red-500/40 bg-red-500/10 p-4 text-sm"
+        >
+          <AlertCircle size={18} className="mt-0.5 flex-shrink-0 text-red-500" />
+          <p>
+            Sorry, we couldn't send your enquiry just now. Please try again, or{" "}
+            <a
+              href={enquiry ? buildEnquiryMailto(enquiry) : `mailto:${EMAIL}`}
+              className="font-semibold text-[var(--color-blue)] underline underline-offset-2"
+            >
+              send it from your email app
+            </a>{" "}
+            to {EMAIL}.
+          </p>
+        </div>
+      )}
+
       <div className="mt-8 flex flex-col-reverse items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-xs text-xs text-[var(--fg-muted)]">
           We'll only use your details to reply to this enquiry.
         </p>
         <button
           type="submit"
-          className="group inline-flex items-center gap-2 rounded-full bg-[var(--fg)] px-8 py-4 font-display text-sm font-bold uppercase tracking-wide text-[var(--bg)] shadow-sm transition-all duration-200 hover:bg-[var(--color-yellow)] hover:text-[#0b0b0c]"
+          disabled={sending}
+          className="group inline-flex items-center gap-2 rounded-full bg-[var(--fg)] px-8 py-4 font-display text-sm font-bold uppercase tracking-wide text-[var(--bg)] shadow-sm transition-all duration-200 hover:bg-[var(--color-yellow)] hover:text-[#0b0b0c] disabled:cursor-wait disabled:opacity-70 disabled:hover:bg-[var(--fg)] disabled:hover:text-[var(--bg)]"
         >
-          Send enquiry
-          <ArrowRight
-            size={16}
-            className="transition-transform duration-200 group-hover:translate-x-1"
-          />
+          {sending ? (
+            <>
+              Sending…
+              <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+            </>
+          ) : (
+            <>
+              Send enquiry
+              <ArrowRight
+                size={16}
+                className="transition-transform duration-200 group-hover:translate-x-1"
+              />
+            </>
+          )}
         </button>
       </div>
     </form>

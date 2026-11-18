@@ -11,9 +11,9 @@ const VIEWS = [
   { id: "list", label: "List", icon: List },
 ];
 const BIG_TEXT =
-  "font-display text-[clamp(2.25rem,6vw,5rem)] font-bold uppercase leading-none tracking-tight text-[#f3ecda]";
+  "font-display text-[clamp(2.25rem,6vw,5rem)] font-bold uppercase leading-none tracking-tight text-[var(--tb-fg)]";
 const LABEL =
-  "block font-mono text-[10px] uppercase tracking-[0.25em] text-[#f3ecda]/50 sm:text-[11px]";
+  "block font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--tb-muted)] sm:text-[11px]";
 
 export default function ProjectIndex() {
   const [group, setGroup] = useState(ALL);
@@ -55,7 +55,7 @@ export default function ProjectIndex() {
         <div
           role="group"
           aria-label="Layout"
-          className="order-last flex w-full rounded-full border border-white/15 p-1 sm:order-none sm:w-auto"
+          className="order-last flex w-full rounded-full border border-[var(--tb-line)] p-1 sm:order-none sm:w-auto"
         >
           {VIEWS.map(({ id, label, icon: Icon }) => {
             const active = view === id;
@@ -68,7 +68,7 @@ export default function ProjectIndex() {
                 className={`flex flex-1 items-center justify-center gap-2 rounded-full px-5 py-2 font-mono text-xs font-semibold uppercase tracking-wider transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-yellow)] sm:flex-none ${
                   active
                     ? "bg-[var(--color-yellow)] text-[#0b0b0c]"
-                    : "text-[#f3ecda]/60 hover:text-[#f3ecda]"
+                    : "text-[var(--tb-muted)] hover:text-[var(--tb-fg)]"
                 }`}
               >
                 <Icon size={14} strokeWidth={2.25} aria-hidden="true" />
@@ -88,7 +88,7 @@ export default function ProjectIndex() {
       </div>
 
       {view === "grid" ? (
-        <ProjectGrid projects={projects} onOpen={setOpenProject} />
+        <ProjectGrid key={group} projects={projects} onOpen={setOpenProject} />
       ) : (
         <ProjectList projects={projects} onOpen={setOpenProject} />
       )}
