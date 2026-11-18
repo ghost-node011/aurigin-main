@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="32" fill="#0B0B0C"/>
-  <path d="M32 14c9.94 0 18 8.06 18 18s-8.06 18-18 18" fill="none" stroke="#FF4D1C" stroke-width="7" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="143 -16.5 360 360">
+  <title>Aurigin Media</title>
+  <rect x="143" y="-16.5" width="360" height="360" rx="79.2" fill="#ffffff"/>
+  <polygon fill="#0c4cd2" points="210,120 270,79 270,307 210,307"/>
+  <polygon fill="#fed928" points="295,57 351,20 351,307 319,307 319,230 295,212"/>
+  <polygon fill="#0c4cd2" points="369,80 436,119 436,307 379,307 379,150 369,136"/>
 </svg>
