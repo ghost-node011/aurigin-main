@@ -1,4 +1,4 @@
-// Portfolio content, taken from the Aurigin Media company profile (slides 15–62).
+// Portfolio content, taken from the Aurigin Media company profile (slides 15–61).
 // Each slide number maps to src/assets/portfolio/slide-NN.jpg and slide-NN-thumb.jpg.
 
 const FULL = import.meta.glob("../assets/portfolio/slide-[0-9][0-9].jpg", {
@@ -17,6 +17,7 @@ export const GROUPS = ["Property", "3D", "Branding", "Other sectors"];
 const RAW_PROJECTS = [
   {
     name: "Trizzone",
+    website: "https://www.trizzone.com/",
     group: "Property",
     slides: [
       [15, "Architecture website"],
@@ -26,6 +27,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "PotterzWheel Realty",
+    website: "https://potterzwheelrealty.com/",
     group: "Property",
     slides: [
       [18, "Property website and mobile discovery"],
@@ -35,6 +37,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "Brassage",
+    website: "https://brassage.in/",
     group: "Property",
     slides: [
       [21, "Architectural hardware catalogue"],
@@ -42,7 +45,8 @@ const RAW_PROJECTS = [
     ],
   },
   {
-    name: "Sri Sri Homz",
+    name: "Sri Sri Homzz",
+    website: "https://www.srisrihomzz.com/",
     group: "Property",
     slides: [
       [23, "Real estate and construction website"],
@@ -51,6 +55,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "Ever Rich Galleria",
+    website: "https://everrich.in/",
     group: "3D",
     slides: [
       [26, "Exterior architectural renders"],
@@ -60,9 +65,14 @@ const RAW_PROJECTS = [
   },
   { name: "The Hair Cloak", group: "Branding", slides: [[30, "Business card design"]] },
   { name: "Gini Sachanandani", group: "Branding", slides: [[31, "Business card design"]] },
-  { name: "Logo design", group: "Branding", slides: [[32, "Identities for education, fitness and a personal brand"]] },
+  {
+    name: "Logo design",
+    group: "Branding",
+    slides: [[32, "Identities for education, fitness and a personal brand"]],
+  },
   {
     name: "Socanomics",
+    website: "https://www.socanomics.com/",
     group: "Other sectors",
     slides: [
       [35, "Wellness website"],
@@ -79,6 +89,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "Anewow",
+    website: "https://www.anewow.com/",
     group: "Other sectors",
     slides: [
       [39, "Online store and campaign creative"],
@@ -87,6 +98,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "Locafella",
+    website: "https://locafellalocs.com/",
     group: "Other sectors",
     slides: [
       [41, "Service and product website"],
@@ -96,6 +108,7 @@ const RAW_PROJECTS = [
   { name: "Tao of Hemp", group: "Other sectors", slides: [[43, "Brand and product discovery"]] },
   {
     name: "Global Vault Group",
+    website: "https://www.globalvaultgroup.com/",
     group: "Other sectors",
     slides: [
       [44, "Corporate website"],
@@ -112,6 +125,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "Holy Cow",
+    website: "https://holycowfoundation.com/",
     group: "Other sectors",
     slides: [
       [48, "Community and visitor website"],
@@ -131,6 +145,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "WebMobHut",
+    website: "https://www.webmobhut.com/",
     group: "Other sectors",
     slides: [
       [55, "Events company website"],
@@ -140,6 +155,7 @@ const RAW_PROJECTS = [
   },
   {
     name: "Shakti Global",
+    website: "https://shaktiglobal.in/",
     group: "Other sectors",
     slides: [
       [58, "Education consultancy website"],
@@ -148,13 +164,13 @@ const RAW_PROJECTS = [
   },
   {
     name: "Kundkund Stationers",
+    website: "https://www.kundkundstationers.in/",
     group: "Other sectors",
     slides: [
       [60, "Stationery website"],
       [61, "Mobile catalogue"],
     ],
   },
-  { name: "Course campaign landing page", group: "Other sectors", slides: [[62, "Education campaign creative"]] },
 ];
 
 function slideImage(number, caption) {
@@ -168,6 +184,7 @@ function slideImage(number, caption) {
 
 export const PROJECTS = RAW_PROJECTS.map((project, index) => ({
   name: project.name,
+  website: project.website ?? null,
   group: project.group,
   category: project.slides[0][1],
   number: String(index + 1).padStart(2, "0"),

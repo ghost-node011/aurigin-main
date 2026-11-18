@@ -12,6 +12,7 @@ export default defineConfig({
         terms: resolve(import.meta.dirname, 'terms/index.html'),
         privacy: resolve(import.meta.dirname, 'privacy/index.html'),
         portfolio: resolve(import.meta.dirname, 'portfolio/index.html'),
+        contact: resolve(import.meta.dirname, 'contact/index.html'),
       },
     },
   },

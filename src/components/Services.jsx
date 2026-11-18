@@ -2,81 +2,12 @@ import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import SplitReveal from "./SplitReveal";
 import Reveal from "./Reveal";
-import { useLenis } from "../lib/SmoothScroll";
-
-const SERVICES = [
-  {
-    number: "01",
-    title: "Websites & Digital Products",
-    desc: "Websites designed to make enquiries easier.",
-    points: ["Landing pages", "Portfolio websites", "Business websites"],
-    ctaText: "Book a consultation",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80",
-    alt: "Modern architecture digital interface and website systems"
-  },
-  {
-    number: "02",
-    title: "Custom Software & Applications",
-    desc: "Portals, dashboards and internal tools built around your workflow.",
-    points: ["Client portals", "Dashboards", "Web/mobile applications"],
-    ctaText: "Discuss your requirements",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    alt: "Custom analytics dashboards and workflow management tools"
-  },
-  {
-    number: "03",
-    title: "Branding & Design",
-    desc: "A clear identity that makes your business recognisable and trusted.",
-    points: ["Brand strategy", "Visual identity", "Collateral and presentations"],
-    ctaText: "Book a consultation",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-    alt: "Architectural visual brand identity and design collateral"
-  },
-  {
-    number: "04",
-    title: "Content & Social",
-    desc: "Turn your work and expertise into content people remember.",
-    points: ["Social media", "Reels and carousels", "Copy and case studies"],
-    ctaText: "Book a consultation",
-    image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80",
-    alt: "Architectural cinematography, photography and social storytelling"
-  },
-  {
-    number: "05",
-    title: "AI & Automation",
-    desc: "Connect enquiries, bookings and follow-ups with human handoff.",
-    points: ["Lead routing", "Booking workflows", "AI enquiry assistants"],
-    ctaText: "Discuss your requirements",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
-    alt: "AI systems and automated built-environment workflows"
-  },
-  {
-    number: "06",
-    title: "SEO & Advertising",
-    desc: "Help the right people discover your business and take action.",
-    points: ["Local SEO", "Google/Meta ads", "Lead campaigns"],
-    ctaText: "Book a consultation",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
-    alt: "Commercial built-environment visibility and high-intent advertising"
-  }
-];
+import { SERVICES } from "../lib/services";
 
 export default function Services() {
   // activeIndex is null by default so all 6 cards appear equally narrow on desktop initially
   const [activeIndex, setActiveIndex] = useState(null);
   const [mobileExpandedIndex, setMobileExpandedIndex] = useState(0);
-  const lenisRef = useLenis();
-
-  // CTA navigation smoothly to contact
-  const handleCtaClick = (e) => {
-    e.preventDefault();
-    const target = document.querySelector("#contact");
-    if (target && lenisRef?.current) {
-      lenisRef.current.scrollTo(target, { offset: -60, duration: 1.2 });
-    } else if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const handleCardSelect = (index) => {
     setActiveIndex(index);
@@ -245,8 +176,7 @@ export default function Services() {
                     {/* CTA Button */}
                     <div className="mt-6">
                       <a
-                        href="#contact"
-                        onClick={handleCtaClick}
+                        href="/contact/"
                         data-cursor="link"
                         className="inline-flex items-center gap-3 px-6 py-3 rounded-full text-xs font-display font-bold uppercase tracking-wider transition-all duration-200 group/btn"
                         style={{
@@ -370,8 +300,7 @@ export default function Services() {
                     </div>
 
                     <a
-                      href="#contact"
-                      onClick={handleCtaClick}
+                      href="/contact/"
                       data-cursor="link"
                       className="inline-flex items-center justify-between w-full px-5 py-3 rounded-full text-xs font-display font-bold uppercase tracking-wider transition-all duration-200"
                       style={{

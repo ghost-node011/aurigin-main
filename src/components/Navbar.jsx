@@ -6,11 +6,11 @@ import { useTheme } from "../lib/ThemeContext";
 import AnimatedLogo from "./AnimatedLogo";
 
 const LINKS = [
-  { href: "#work", label: "Work" },
+  { href: "#hero", label: "Home" }, // scrolls back to the top of the home page
   { href: "/portfolio/", label: "Portfolio" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Approach" },
-  { href: "#contact", label: "Contact" },
+  { href: "/contact/", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -81,8 +81,7 @@ export default function Navbar() {
         <div className="flex items-center gap-4 sm:gap-5">
           <ThemeToggle className="hidden lg:inline-flex" />
           <a
-            href="#contact"
-            onClick={(e) => goTo(e, "#contact")}
+            href="/contact/"
             data-cursor="link"
             className="hidden lg:inline-flex items-center justify-center font-display font-bold text-xs uppercase tracking-wider rounded-full px-5 py-2.5 bg-[var(--fg)] text-[var(--bg)] shadow-sm hover:shadow-md transition-all duration-200"
           >
@@ -116,8 +115,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between pt-3">
             <ThemeToggle />
             <a
-              href="#contact"
-              onClick={(e) => goTo(e, "#contact")}
+              href="/contact/"
               className="font-display font-bold text-xs uppercase tracking-wider rounded-full px-5 py-2.5 bg-[var(--fg)] text-[var(--bg)]"
             >
               Start a project

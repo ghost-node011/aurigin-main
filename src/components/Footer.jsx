@@ -6,11 +6,11 @@ import logoDark from "../assets/aurigin-logo-dark.png";
 import { InstagramIcon, LinkedinIcon, XIcon } from "./SocialIcons";
 
 const NAV_LINKS = [
-  { href: "#work", label: "Work" },
+  { href: "#hero", label: "Home" }, // scrolls back to the top of the home page
   { href: "/portfolio/", label: "Portfolio" },
   { href: "#services", label: "Services" },
   { href: "#process", label: "Approach" },
-  { href: "#contact", label: "Contact" },
+  { href: "/contact/", label: "Contact" },
 ];
 
 export default function Footer() {
@@ -86,8 +86,7 @@ export default function Footer() {
             </h4>
             <div className="flex flex-col gap-2.5">
               <a
-                href="#contact"
-                onClick={(e) => goTo(e, "#contact")}
+                href="/contact/"
                 data-cursor="link"
                 className="font-display text-sm font-bold uppercase tracking-wider transition-colors hover:text-[var(--color-yellow)] w-fit"
               >

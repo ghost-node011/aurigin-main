@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight, Globe, X } from "lucide-react";
 import { useLenis } from "../lib/SmoothScroll";
 
 const CONTROL =
@@ -29,7 +29,7 @@ export default function SlideViewer({ project, onClose }) {
       else if (e.key === "ArrowLeft") setIndex((i) => Math.max(i - 1, 0));
       else if (e.key === "Tab") {
         // Keep keyboard focus inside the viewer.
-        const items = [...dialogRef.current.querySelectorAll("button:not(:disabled)")];
+        const items = [...dialogRef.current.querySelectorAll("a[href], button:not(:disabled)")];
         const first = items[0];
         const last = items[items.length - 1];
         if (e.shiftKey && document.activeElement === first) {
@@ -63,15 +63,41 @@ export default function SlideViewer({ project, onClose }) {
       <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-8">
         <div className="min-w-0">
           <p className="truncate font-display text-lg font-bold sm:text-2xl">{project.name}</p>
-          <p className="truncate font-mono text-[11px] uppercase tracking-wider opacity-60">{slide.caption}</p>
+          <p className="truncate font-mono text-[11px] uppercase tracking-wider opacity-60">
+            {slide.caption}
+          </p>
         </div>
-        <button ref={closeRef} type="button" onClick={onClose} aria-label="Close" className={CONTROL}>
-          <X size={18} />
-        </button>
+        <div className="flex shrink-0 items-center gap-3">
+          {project.website && (
+            <a
+              href={project.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-11 items-center gap-2 rounded-full bg-[var(--color-yellow)] px-4 font-display text-xs font-bold uppercase tracking-wider text-[#0b0b0c] transition-colors hover:bg-[#f3ecda] sm:px-5"
+            >
+              <Globe size={15} aria-hidden="true" />
+              <span className="hidden sm:inline">Visit website</span>
+              <span className="sm:hidden">Website</span>
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          )}
+          <button
+            ref={closeRef}
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className={CONTROL}
+          >
+            <X size={18} />
+          </button>
+        </div>
       </div>
 
       {/* Clicking the empty space around the slide closes the viewer. */}
-      <div className="flex min-h-0 flex-1 items-center justify-center px-4 sm:px-8" onClick={onClose}>
+      <div
+        className="flex min-h-0 flex-1 items-center justify-center px-4 sm:px-8"
+        onClick={onClose}
+      >
         <img
           key={slide.full}
           src={slide.full}

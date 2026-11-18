@@ -8,7 +8,6 @@ import Manifesto from "./components/Manifesto";
 import Services from "./components/Services";
 import Process from "./components/Process";
 import Work from "./components/Work";
-import WhyUs from "./components/WhyUs";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 
@@ -26,7 +25,6 @@ export default function App() {
           <Services />
           <Process />
           <Work />
-          <WhyUs />
           <CTA />
         </main>
         <Footer />

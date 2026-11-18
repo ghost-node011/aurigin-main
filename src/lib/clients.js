@@ -49,7 +49,7 @@ export const CLIENTS = [
   },
   {
     tab: "SSH",
-    name: "Sri Sri Homz",
+    name: "Sri Sri Homzz",
     sector: "Real Estate Development",
     highlight: "Brand & campaign partner",
     from: "#ff4d1c",

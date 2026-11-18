@@ -1,6 +1,10 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ArrowDown, ArrowUpRight, Heart, PlayCircle, Sparkles } from "lucide-react";
+import heroGurugram from "../assets/hero-gurugram.jpg";
+
+// Portfolio is a separate page (see Navbar LINKS)
+const PORTFOLIO_URL = "/portfolio/";
 
 const CHIPS = [
   { icon: Heart, label: "8.7K", sub: "engagement", desc: "Audience resonance" },
@@ -27,37 +31,37 @@ export default function Hero() {
         line1Ref.current,
         { yPercent: 120, opacity: 0 },
         { yPercent: 0, opacity: 1, duration: 0.75, ease: "power3.out" },
-        0
+        0,
       )
         .fromTo(
           line2Ref.current,
           { yPercent: 120, opacity: 0 },
           { yPercent: 0, opacity: 1, duration: 0.75, ease: "power3.out" },
-          0.12
+          0.12,
         )
         .fromTo(
           subRef.current,
           { opacity: 0, y: 22 },
           { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
-          0.28
+          0.28,
         )
         .fromTo(
           ctaRef.current,
           { opacity: 0, y: 22 },
           { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
-          0.4
+          0.4,
         )
         .fromTo(
           chipsWrapRef.current?.children || [],
           { opacity: 0, x: 28, scale: 0.94 },
           { opacity: 1, x: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: "power3.out" },
-          0.45
+          0.45,
         )
         .fromTo(
           cueRef.current,
           { opacity: 0 },
           { opacity: 1, duration: 0.5, ease: "power2.out" },
-          0.8
+          0.8,
         );
 
       // Subtle ambient hover motion on the proof cards
@@ -86,6 +90,41 @@ export default function Hero() {
     >
       {/* Background Architectural Watermark & Accent Graphics */}
       <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+        {/* Hero background photo — full-bleed Gurugram glass office tower at sunset (both themes) */}
+        <img
+          src={heroGurugram}
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover object-[center_60%] scale-[1.1] origin-bottom contrast-[1.08] saturate-[1.1] dark:brightness-[0.65]"
+        />
+
+        {/* Readability overlay (light): light wash on the left for the headline, skyline open on the right */}
+        <div
+          className="absolute inset-0 dark:hidden"
+          style={{
+            background:
+              "linear-gradient(90deg, color-mix(in srgb, var(--bg) 78%, transparent) 0%, color-mix(in srgb, var(--bg) 58%, transparent) 40%, color-mix(in srgb, var(--bg) 18%, transparent) 75%, transparent 100%)",
+          }}
+        />
+        {/* Readability overlay (dark): deep wash on the left, skyline glows on the right */}
+        <div
+          className="absolute inset-0 hidden dark:block"
+          style={{
+            background:
+              "linear-gradient(90deg, color-mix(in srgb, var(--bg) 85%, transparent) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 40%, color-mix(in srgb, var(--bg) 25%, transparent) 75%, color-mix(in srgb, var(--bg) 10%, transparent) 100%)",
+          }}
+        />
+        {/* Top & bottom fade so the image blends into the navbar and next section */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, color-mix(in srgb, var(--bg) 40%, transparent) 0%, transparent 18%, transparent 90%, var(--bg) 100%)",
+          }}
+        />
+
         {/* Large watermark brand lettering in background */}
         <span
           ref={bigWordTextRef}
@@ -157,8 +196,8 @@ export default function Hero() {
             ref={subRef}
             className="mt-6 sm:mt-8 text-base sm:text-xl text-[var(--fg-muted)] max-w-2xl font-normal leading-relaxed"
           >
-            We don't get lucky. We get it by design. Brand strategy, creative, media and AI —
-            built to make you unforgettable.
+            We don't get lucky. We get it by design. Brand strategy, creative, media and AI — built
+            to make you unforgettable.
           </p>
 
           {/* Action Row: Editorial Text Link (Image 1 Style) + Aurigin Action Buttons */}
@@ -181,14 +220,14 @@ export default function Hero() {
             {/* Primary & Secondary Action Buttons */}
             <div className="flex items-center gap-3">
               <a
-                href="#work"
+                href={PORTFOLIO_URL}
                 data-cursor="link"
                 className="font-display font-bold uppercase text-xs sm:text-sm tracking-wide bg-[var(--fg)] text-[var(--bg)] rounded-full px-7 py-3.5 hover:bg-[var(--color-yellow)] hover:text-[#0b0b0c] transition-all duration-200 shadow-sm"
               >
                 See our work
               </a>
               <a
-                href="#contact"
+                href="/contact/"
                 data-cursor="link"
                 className="font-display font-bold uppercase text-xs sm:text-sm tracking-wide border border-[var(--line)] rounded-full px-7 py-3.5 text-[var(--fg)] hover:border-[var(--color-blue)] hover:text-[var(--color-blue)] transition-colors"
               >

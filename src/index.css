@@ -84,7 +84,7 @@ a[href="#contact"].border:hover,
 
 /* Links (default state: Blue #0066FF, hover state: Yellow #FED828) */
 nav a:not([class*="bg-"]):not([class*="rounded-full"]),
-footer a:not([class*="bg-"]):not([class*="rounded-full"]):not([href="#hero"]),
+footer a:not([class*="bg-"]):not([class*="rounded-full"]):not(:has(img)),
 #contact a[aria-label] {
   color: var(--color-blue) !important;
   transition: color 0.2s ease;
@@ -111,15 +111,99 @@ header.border-b {
   color: var(--fg) !important;
 }
 
-/* Feature & brand icons: Blue #0066FF */
-#why-us svg,
-#why-us .lucide,
-#hero svg.animate-bounce {
-  color: var(--color-blue) !important;
+/* ==========================================================================
+   Portfolio grid: white cards on a black backdrop (light theme),
+   charcoal cards on near-black (dark theme).
+   ========================================================================== */
+.portfolio-grid,
+.portfolio-toolbar {
+  border-radius: 1.25rem;
+  background: #0b0b0c;
 }
 
-#why-us div[style*="color-mix"] {
-  background: rgba(0, 102, 255, 0.12) !important;
+.portfolio-grid {
+  gap: 6px;
+  padding: 6px;
+}
+
+[data-theme="dark"] .portfolio-toolbar {
+  background: #050506;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+/* Small markers in the empty checkerboard cells */
+.portfolio-grid__dot {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.portfolio-card {
+  background: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s var(--ease-out-quart), box-shadow 0.3s ease;
+}
+
+/* Blue → yellow accent bar that grows across the top on hover */
+.portfolio-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  background: linear-gradient(90deg, var(--color-blue), var(--color-yellow));
+  transition: width 0.4s var(--ease-out-quart);
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px var(--color-blue), 0 18px 36px -12px rgba(0, 102, 255, 0.55);
+}
+
+.portfolio-card:hover::before {
+  width: 100%;
+}
+
+/* Frame the (white) slide thumbnails so they don't blend into the white card */
+.portfolio-card__thumb {
+  box-shadow: 0 0 0 1px rgba(11, 11, 12, 0.08), 0 6px 14px -8px rgba(11, 11, 12, 0.3);
+}
+
+.portfolio-card__arrow {
+  color: var(--color-blue);
+}
+
+[data-theme="dark"] .portfolio-grid {
+  background: #050506;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+[data-theme="dark"] .portfolio-card {
+  background: linear-gradient(160deg, #1c1c20 0%, #111113 100%);
+  border-color: var(--line);
+}
+
+[data-theme="dark"] .portfolio-card__thumb {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 6px 16px -8px rgba(0, 0, 0, 0.7);
+}
+
+[data-theme="dark"] .portfolio-card__arrow {
+  color: var(--color-yellow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-card,
+  .portfolio-card::before {
+    transition: none;
+  }
+  .portfolio-card:hover {
+    transform: none;
+  }
+}
+
+/* Hero scroll-cue icon: Blue #0066FF */
+#hero svg.animate-bounce {
+  color: var(--color-blue) !important;
 }
 
 /* Badges / pills: Yellow background with black text */

@@ -3,15 +3,33 @@ import { motion, AnimatePresence } from "framer-motion";
 import AnimatedLogo from "./AnimatedLogo";
 import { useTheme } from "../lib/ThemeContext";
 
-// Flag to guarantee intro plays strictly once per session / website load
-let introHasCompleted = false;
+// The intro plays once per browser-tab session. The flag lives in sessionStorage so it
+// survives page loads — e.g. coming back to the home page from the portfolio or contact page.
+const INTRO_SEEN_KEY = "aurigin-intro-seen";
+
+function hasSeenIntro() {
+  try {
+    return sessionStorage.getItem(INTRO_SEEN_KEY) === "1";
+  } catch {
+    return false; // storage blocked (private mode etc.) — just play the intro
+  }
+}
+
+function markIntroSeen() {
+  try {
+    sessionStorage.setItem(INTRO_SEEN_KEY, "1");
+  } catch {
+    // ignore — worst case the intro plays again on the next page load
+  }
+}
 
 export default function LogoIntro() {
-  const [showIntro, setShowIntro] = useState(() => !introHasCompleted);
+  const [showIntro, setShowIntro] = useState(() => !hasSeenIntro());
   const { theme } = useTheme();
 
   useEffect(() => {
     if (!showIntro) return;
+    markIntroSeen();
 
     // Prevent body scrolling during intro animation
     const originalOverflow = document.body.style.overflow;
@@ -26,7 +44,6 @@ export default function LogoIntro() {
     // Rest duration: ~0.4s to admire the completed lockup
     // Total wait before starting fade-out: 3700ms
     const timer = setTimeout(() => {
-      introHasCompleted = true;
       setShowIntro(false);
       document.body.style.overflow = originalOverflow;
     }, 3700);
@@ -55,8 +72,7 @@ export default function LogoIntro() {
           <div
             className="absolute inset-0 pointer-events-none opacity-40"
             style={{
-              background:
-                "radial-gradient(circle at center, var(--line) 0%, transparent 65%)",
+              background: "radial-gradient(circle at center, var(--line) 0%, transparent 65%)",
             }}
           />
 

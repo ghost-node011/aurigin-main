@@ -14,7 +14,7 @@ const COLUMN_LINES = {
 // Real project covers shown in the floating stack, back to front.
 const SHOWCASE = [
   { name: "Ever Rich Galleria", className: "right-[2%] top-[4%] w-[62%]", rotate: 6, delay: 0.5 },
-  { name: "Sri Sri Homz", className: "left-[0%] top-[30%] w-[58%]", rotate: -5, delay: 0.35 },
+  { name: "Sri Sri Homzz", className: "left-[0%] top-[30%] w-[58%]", rotate: -5, delay: 0.35 },
   { name: "Trizzone", className: "right-[10%] bottom-[2%] w-[60%]", rotate: 2, delay: 0.2 },
 ].map((item) => ({ ...item, image: PROJECTS.find((p) => p.name === item.name).slides[0].thumb }));
 
