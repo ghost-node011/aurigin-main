@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowLeft, ArrowRight, Binoculars, Compass, Lightbulb, PenLine, Megaphone } from "lucide-react";
+import { Binoculars, Compass, Lightbulb, PenLine, Megaphone } from "lucide-react";
 import SplitReveal from "./SplitReveal";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -77,9 +77,6 @@ export default function Process() {
         </div>
 
         <div className="relative flex-1 flex items-center justify-center px-6 min-h-0">
-          <ArrowLeft className="hidden sm:block absolute left-[8%] text-[var(--fg-muted)]" size={28} strokeWidth={1.5} />
-          <ArrowRight className="hidden sm:block absolute right-[8%] text-[var(--fg-muted)]" size={28} strokeWidth={1.5} />
-
           <div className="relative w-[84vw] sm:w-[420px] aspect-square max-h-[52vh]">
             {STEPS.map((s, i) => {
               const StepIcon = s.icon;
