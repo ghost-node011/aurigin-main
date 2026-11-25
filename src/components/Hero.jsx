@@ -229,7 +229,7 @@ export default function Hero() {
               <a
                 href="/contact/"
                 data-cursor="link"
-                className="font-display font-bold uppercase text-xs sm:text-sm tracking-wide border border-[var(--line)] rounded-full px-7 py-3.5 text-[var(--fg)] hover:border-[var(--color-blue)] hover:text-[var(--color-blue)] transition-colors"
+                className="font-display font-bold uppercase text-xs sm:text-sm tracking-wide bg-[#0066ff] text-white rounded-full px-7 py-3.5 hover:bg-[var(--color-yellow)] hover:text-[#0b0b0c] active:bg-[var(--color-yellow)] active:text-[#0b0b0c] focus-visible:bg-[var(--color-yellow)] focus-visible:text-[#0b0b0c] transition-all duration-200 shadow-sm"
               >
                 Let's talk
               </a>
